@@ -1,0 +1,37 @@
+# Londra 2024 | 5–7 Aprile 2024 | 51.5074, -0.1278
+@colore #c8353d
+@scena londra
+
+## 05/04 – Arrivo
+20:50 | Partenza da Napoli Capodichino
+22:45 | Arrivo Aeroporto Stansted
+00:00 | Arrivo Point A Hotel Liverpool Street | 1 ora – Stansted Express / Airport Bus Express 159
+
+## 06/04 – Est e nord di Londra
+10:00 | Brick Lane
+10:30 | Somerset House (Hello Kitty Café) | 30 min in metro
+12:00 | Kyoto Garden | 40 min con i mezzi
+13:00 | Pranzo
+13:45 | Pokémon Center
+16:30 | Hampstead Heath
+Sera | Little Venice
++ Brick Lane | store | Via di Shoreditch con street art, mercati, vintage e ristoranti di cucina bengalese.
++ Somerset House | landmark | Neoclassico palazzo sul Tamigi, oggi centro culturale con mostre ed eventi.
++ Kyoto Garden | leaf | Giardino giapponese a Holland Park, con cascata, laghetto e carpe.
++ Pokémon Center | gamepad | Negozio dedicato ai Pokémon, con peluche e oggetti da collezione.
++ Hampstead Heath | tree | Grande parco su una collina, con punti panoramici su Londra.
++ Little Venice | water | Zona di canali con barche colorate, ideale per una passeggiata serale.
+
+## 07/04 – Westminster e partenza
+10:00 | Fuwa Fuwa Café Soho (fluffy pancake)
+11:30 | BAPS Shri Swaminarayan Mandir (tempio induista, il più grande fuori dall'India)
+13:00 | Pranzo
+15:00 | Admiralty Arch
+15:30 | Parliament Square e statua di Winston Churchill | 11 min a piedi da Admiralty Arch
+16:00 | Cattedrale di Westminster | 16 min a piedi da Parliament Square – 42 min dall'aeroporto
+19:10 | Partenza Aeroporto Gatwick
++ Fuwa Fuwa Café | utensils | Caffè di ispirazione giapponese a Soho, noto per i pancake soffici.
++ BAPS Shri Swaminarayan Mandir | landmark | Tempio induista di Neasden in marmo e pietra, tra i più grandi fuori dall'India.
++ Admiralty Arch | archway | Grande arco monumentale tra The Mall e Trafalgar Square.
++ Parliament Square | landmark | Piazza di Westminster, con le statue di Churchill e di altri statisti.
++ Cattedrale di Westminster | church | Cattedrale cattolica neobizantina con la torre a strisce rosse e bianche.

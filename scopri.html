@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scopri di più</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="viaggio.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="v2">
+  <nav class="navbar transparent">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
+      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
+    </ul>
+  </nav>
+
+  <div class="v2-main">
+    <div class="mp-head"><h1>Scopri di più</h1></div>
+    <div class="filtri"><input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off"></div>
+    <!-- Compaiono i viaggi che hanno almeno un luogo "+" in data/<id>.txt -->
+    <div class="cards" id="lista-itinerari"></div>
+  </div>
+
+  <script type="module">
+    import { loadAllTrips } from "./parser.js";
+    import { scenaSvg, dividiNome } from "./ui.js";
+
+    const lista = document.getElementById("lista-itinerari");
+    const trips = (await loadAllTrips()).filter(t => Object.values(t.giorni).some(g => g.luoghi.length));
+    trips.sort((a, b) => ((b.periodo.match(/\d{4}/) || ["0"])[0]) - ((a.periodo.match(/\d{4}/) || ["0"])[0]));
+
+    function disegna() {
+      const q = document.getElementById("cerca").value.trim().toLowerCase();
+      lista.innerHTML = trips.filter(t => !q || (t.nome + " " + t.periodo).toLowerCase().includes(q)).map(t => {
+        const { titolo, anno } = dividiNome(t.nome);
+        const n = Object.values(t.giorni).reduce((s, g) => s + g.luoghi.length, 0);
+        return `<a class="trip-card" href="scopriViaggio.html?trip=${t.id}" style="--acc:${t.colore}">
+          <div class="art">${scenaSvg(t)}</div>
+          <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3><div class="per">${n} luoghi da scoprire</div></div></a>`;
+      }).join("") || '<p class="vuoto">Nessun itinerario disponibile.</p>';
+    }
+    disegna();
+    document.getElementById("cerca").addEventListener("input", disegna);
+  </script>
+</body>
+</html>

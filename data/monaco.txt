@@ -1,0 +1,84 @@
+# Monaco di Baviera 2025/26 | 26 Dicembre 2025 – 1 Gennaio 2026 | 48.1351, 11.5820
+@colore #1d7fa8
+@scena monaco
+
+## 26/12 – Arrivo a Monaco
+18:15 | Partenza da Napoli
+20:00 | Arrivo a Monaco
+21:30 | Check-in Atrium Hotel
+22:00 | Cena e passeggiata serale: Marienplatz, Viktualienmarkt, Hofbräuhaus | la storica birreria è aperta fino a tardi
+> I mercatini natalizi di Monaco finiscono il 24 dicembre. Il Viktualienmarkt è un mercato alimentare, non natalizio.
++ Marienplatz | landmark | Piazza centrale di Monaco, con il Municipio nuovo e il famoso carillon.
++ Viktualienmarkt | store | Mercato alimentare all'aperto, tra specialità bavaresi e chioschi.
++ Hofbräuhaus | beer-mug-empty | La birreria più famosa della città, aperta fino a tardi.
+
+## 27/12 – Escursione a Salisburgo
+07:56 | Partenza da Monaco Hbf | treno prenotato su Omio
+09:53 | Arrivo a Salisburgo
+10:30 | Fortezza Hohensalzburg | prenotata, senza orario
+13:00 | Pranzo
+15:00 | Mercatini al Duomo e Residenzplatz
+17:00 | Casa di Mozart e Getreidegasse
+17:30 | Mirabellgarten | tramonto
+18:53 | Rientro a Monaco
++ Fortezza Hohensalzburg | chess-rook | Imponente fortezza medievale sopra la città, tra le più grandi d'Europa.
++ Duomo di Salisburgo | church | Cattedrale barocca nel cuore del centro storico.
++ Residenzplatz | landmark | Piazza barocca con fontana, vicina al Duomo.
++ Casa di Mozart | music | La casa natale del compositore, oggi museo.
++ Getreidegasse | store | La via più famosa della città, con insegne in ferro battuto e negozi storici.
++ Mirabellgarten | leaf | Giardini barocchi con vista sulla fortezza, belli al tramonto.
+
+## 28/12 – Musei e centro
+09:30 | Deutsches Museum | fascia oraria 9–10, prenotato, visita di 3–4 ore
+13:00 | Pranzo
+15:00 | Alte Pinakothek | prenotata, visita di 2–3 ore, chiude alle 18
+18:00 | Odeonsplatz e Residenz | da fuori
+20:00 | Cena
+> Serata alternativa: quartiere Schwabing o Englischer Garten
++ Deutsches Museum | gears | Uno dei più grandi musei di scienza e tecnica del mondo.
++ Alte Pinakothek | palette | Museo con grandi opere dei maestri europei dal Medioevo al Settecento.
++ Odeonsplatz | landmark | Piazza monumentale con la Feldherrnhalle e la chiesa dei Teatini.
++ Residenz | building | Ex palazzo dei re di Baviera, il più grande palazzo cittadino della Germania.
+
+## 29/12 – Nymphenburg e Parco Olimpico
+11:00 | Castello di Nymphenburg | prenotato, 40 min dall'hotel
+13:30 | Pranzo
+15:00 | Passeggiata al Parco Olimpico e salita all'Olympiaberg
+Sera | Quartiere Schwabing
++ Castello di Nymphenburg | castle | Residenza estiva dei re di Baviera, con un grande parco barocco.
++ Parco Olimpico | tree | Parco costruito per le Olimpiadi del 1972, con la collina Olympiaberg.
++ Olympiaberg | mountain | Collina artificiale con una bella vista su Monaco.
++ Schwabing | city | Quartiere vivace di caffè, locali e atmosfera bohémien.
+
+## 30/12 – Escursione a Norimberga
+09:17 | Partenza da Monaco Hbf | prenotazione su Omio
+10:23 | Arrivo a Norimberga
+11:00 | Altes Rathaus, Hauptmarkt, Tiergärtnertorplatz, Frauenkirche con l'orologio astronomico, Ponte del Boia
+13:00 | Pranzo
+15:00 | Kaiserburg | a pagamento, non prenotabile online
+17:30 | Chiesa di San Lorenzo
+19:00 | Rientro a Monaco
+20:30 | Cena
++ Hauptmarkt | store | Piazza principale della città vecchia, sede del famoso mercatino di Natale.
++ Frauenkirche | church | Chiesa gotica con un orologio astronomico animato sulla facciata.
++ Ponte del Boia | bridge | Pittoresco ponte coperto in legno sul fiume Pegnitz.
++ Kaiserburg | castle | Castello imperiale sulla collina, simbolo di Norimberga.
++ Chiesa di San Lorenzo | church | Grande chiesa gotica con un tabernacolo alto e riccamente decorato.
+
+## 31/12 – Capodanno a Monaco
+10:00 | Peterskirche e Marienplatz
+11:00 | Duomo di Monaco
+11:30 | Frauenkirche e Asamkirche
+13:00 | Pranzo
+15:00 | Gärtnerplatzviertel
+19:00 | Tollwood Winterfestival | prenotato
+> Fuochi d'artificio visibili da Olympiaberg o dai ponti sull'Isar
++ Peterskirche | church | La chiesa più antica del centro, con una torre panoramica.
++ Frauenkirche di Monaco | church | Cattedrale con le famose torri a cipolla, simbolo della città.
++ Asamkirche | church | Gioiello del barocco, con interni ricchissimi di stucchi e decorazioni.
++ Gärtnerplatzviertel | city | Quartiere alla moda con locali, negozi e teatro.
+
+## 01/01 – Rientro
+10:00 | Passeggiata all'Englischer Garten
+15:50 | Partenza dall'aeroporto
++ Englischer Garten | tree | Uno dei più grandi parchi urbani d'Europa, con ruscelli e prati.

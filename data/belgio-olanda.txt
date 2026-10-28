@@ -1,0 +1,167 @@
+# Belgio e Olanda 2026 | 3–13 Agosto 2026 | 51.2194, 4.4025
+@colore #8a5fbf
+@scena belgio-olanda
+@citta Bruxelles | 2 notti
+@citta Gand | 1 notte
+@citta Bruges | 2 notti
+@citta Anversa | 2 notti
+@citta Rotterdam | 2 notti
+@citta Eindhoven | 1 notte
+
+## 03/08 – Arrivo a Bruxelles
+09:20 | Partenza da Napoli
+11:40 | Arrivo Bruxelles Charleroi
+13:30 | Arrivo Boutique Hotel Saint-Géry | 1h20 di mezzi
+14:00 | Pranzo
+16:00 | Grand Place e Municipio (Hôtel de Ville), Manneken Pis, Galeries Royales Saint-Hubert, Îlot Sacré
+18:00 | Cattedrale dei Santi Michele e Gudula, Bourse e Rue des Bouchers
++ Grand Place | landmark | Piazza storica circondata da case delle corporazioni e dal Municipio gotico, patrimonio UNESCO.
++ Hôtel de Ville | building | Municipio gotico del Quattrocento, con una svettante torre sulla Grand Place.
++ Manneken Pis | monument | Piccola statua in bronzo di un bambino che fa pipì, simbolo irriverente della città.
++ Galeries Royales Saint-Hubert | store | Elegante galleria coperta dell'Ottocento con negozi, caffè e cioccolaterie.
++ Îlot Sacré | utensils | Zona di vicoli medievali piena di ristoranti, a due passi dalla Grand Place.
++ Cattedrale dei Santi Michele e Gudula | church | Cattedrale gotica di Bruxelles, con due alte torri e grandi vetrate.
++ Bourse | landmark | Edificio ottocentesco della Borsa, punto di ritrovo nel centro.
++ Rue des Bouchers | utensils | Via pedonale famosa per ristoranti di pesce e atmosfera vivace.
+
+## 04/08 – Bruxelles
+10:00 | Atomium + Mini-Europe | prenotati, mail visit.brussels
+13:00 | Pranzo
+15:00 | Parco del Cinquantenario e Arco trionfale, Palazzo Reale, Sablon (Notre-Dame du Sablon)
+20:00 | Tramonto da Mont des Arts
+> Extra: Musei Reali di Belle Arti (Bruegel, Rubens) o Museo Magritte
++ Atomium | landmark | Struttura di nove sfere in acciaio costruita per l'Expo del 1958, simbolo di Bruxelles.
++ Mini-Europe | city | Parco con riproduzioni in miniatura dei monumenti europei.
++ Parco del Cinquantenario | tree | Grande parco con un monumentale arco trionfale e diversi musei.
++ Palazzo Reale | landmark | Palazzo ufficiale del re del Belgio, aperto ai visitatori solo in alcuni periodi dell'anno.
++ Sablon | church | Elegante piazza con la chiesa gotica di Notre-Dame du Sablon, antiquari e cioccolaterie.
++ Mont des Arts | binoculars | Giardino e terrazza con vista panoramica sul centro, bellissimi al tramonto.
+
+## 05/08 – Bruxelles → Gand
+09:00 | Treno Bruxelles-Centrale → Gent-Sint-Pieters | 1h, app SNCB
+10:00 | Arrivo B&B HOTEL Gent Centrum
+11:00 | Castello di Gravensteen | prenotato
+13:00 | Pranzo
+14:30 | Patershol (quartiere pittoresco), Korenlei e Graslei
+16:00 | Vrijdagmarkt, Werregarenstraat, Municipio
+17:00 | Chiesa di San Nicola, Korenmarkt, Belfort di Gent e Lakenhalle
+18:30 | Cattedrale di San Bavone (Agnello Mistico)
++ Castello di Gravensteen | landmark | Castello medievale dei conti delle Fiandre, nel cuore della città.
++ Patershol | city | Quartiere pittoresco di vicoli acciottolati, oggi pieno di ristoranti.
++ Korenlei e Graslei | water | Le due banchine sul fiume Leie, con case delle corporazioni: il punto più fotografato di Gand.
++ Vrijdagmarkt | store | Storica piazza del mercato nel centro della città.
++ Werregarenstraat | palette | Vicolo dedicato alla street art, dove i graffiti sono legali.
++ Municipio | building | Edificio con una facciata che unisce stile gotico e rinascimentale.
++ Chiesa di San Nicola | church | Chiesa gotica in stile scaldiano, nel centro storico.
++ Belfort | tower-observation | Torre campanaria medievale, patrimonio UNESCO.
++ Lakenhalle | building | Ex mercato dei tessuti accanto al Belfort.
++ Cattedrale di San Bavone | church | Cattedrale che custodisce il polittico dell'Agnello Mistico dei fratelli Van Eyck.
+
+## 06/08 – Gand → Bruges
+09:00 | Treno Gent-Sint-Pieters → Bruges | 1h, app SNCB
+10:00 | Arrivo Hotel Acacia Bruges
+11:30 | Sint-Amandsstraat, Markt e Belfort, Eiermarkt
+13:30 | Pranzo
+15:30 | Burg, Basilica del Sacro Sangue, Rozenhoedkaai | punto panoramico sui canali, bellissimo anche al tramonto
+16:30 | Jeruzalemkerk, Kruispoort, Sint-Janshuismolen
+> Birrificio Brouwerij De Halve Maan
++ Markt e Belfort | tower-observation | Piazza centrale di Bruges con il campanile medievale, alto oltre 80 metri.
++ Eiermarkt | city | Piccola piazza vicina al Markt, con caffè e locali.
++ Burg | landmark | Piazza con il municipio gotico e la Basilica del Sacro Sangue.
++ Basilica del Sacro Sangue | church | Basilica che custodisce una reliquia del sangue di Cristo.
++ Rozenhoedkaai | water | Banchina sul canale, tra i punti più fotografati di Bruges.
++ Jeruzalemkerk | church | Chiesa del Quattrocento costruita dalla famiglia Adornes, con una pianta ispirata al Santo Sepolcro di Gerusalemme.
++ Kruispoort | archway | Una delle porte medievali rimaste delle mura di Bruges.
++ Sint-Janshuismolen | home | Mulino a vento sul bastione della città.
++ Brouwerij De Halve Maan | beer-mug-empty | Birrificio storico in centro, con visite guidate.
+
+## 07/08 – Bruges
+10:30 | Chiesa di Nostra Signora, Bonifaciusbrug
+11:30 | Begijnhof e Godshuis De Vos (ospizi di carità)
+13:00 | Pranzo
+15:00 | Minnewater
+> Extra: Choco-Story
++ Chiesa di Nostra Signora | church | Chiesa con una torre in mattoni tra le più alte d'Europa e la Madonna col Bambino di Michelangelo.
++ Bonifaciusbrug | bridge | Piccolo ponte pedonale vicino alla chiesa, tra i più romantici della città.
++ Begijnhof | home | Corte tranquilla di case bianche, famosa in primavera per i narcisi.
++ Godshuis De Vos | home | Antico ospizio di carità con una corte interna silenziosa.
++ Minnewater | water | Il "Lago dell'Amore", con cigni e un parco lungo il canale.
++ Choco-Story | cookie-bite | Museo del cioccolato, per scoprirne la storia.
+
+## 08/08 – Bruges → Anversa
+09:25 | Treno Bruges → Anversa-Centraal | 1h30, app SNCB
+11:30 | Arrivo Hotel A Place Antwerp – Boutique Suites & Flats | Vrijdagmarkt 1
+12:00 | Vrijdagmarkt, Cattedrale di Nostra Signora (opere di Rubens)
+13:00 | Pranzo
+15:00 | Grote Markt, case delle corporazioni e Municipio
+17:00 | Museum aan de Stroom (MAS) | terrazza panoramica gratuita
+18:00 | Het Eilandje
++ Vrijdagmarkt | store | Piazza storica del centro, vicina al Museo Plantin-Moretus.
++ Cattedrale di Nostra Signora | church | La più grande chiesa gotica del Belgio, con opere di Rubens.
++ Grote Markt | landmark | Piazza centrale con case delle corporazioni, il Municipio e la fontana di Brabo.
++ MAS | building | Museo a forma di torre sul fiume, con una terrazza panoramica gratuita.
++ Het Eilandje | ship | Ex quartiere portuale, oggi di tendenza, con musei e ristoranti.
+
+## 09/08 – Anversa
+10:00 | Rubenshuis e Museum Plantin-Moretus (UNESCO) | a pagamento
+13:00 | Pranzo
+15:00 | Meir (shopping, Palazzo Reale di Anversa)
+16:00 | Vlaeykensgang (vicolo storico)
+17:00 | Diamond District
+> Extra: Zoo di Anversa
++ Rubenshuis | palette | Casa-atelier del pittore Rubens, oggi museo.
++ Museum Plantin-Moretus | book | Museo UNESCO della stampa, ospitato nell'ex tipografia della famiglia Plantin-Moretus.
++ Meir | bag-shopping | Principale via dello shopping, con il Palazzo Reale di Anversa.
++ Vlaeykensgang | home | Vicolo storico nascosto, quasi fermo nel tempo.
++ Diamond District | gem | Quartiere dei diamanti: Anversa è uno dei grandi centri mondiali di questo commercio.
++ Zoo di Anversa | paw | Uno dei più antichi zoo d'Europa, nel centro della città.
+
+## 10/08 – Anversa → Rotterdam
+08:45 | Treno Anversa-Centraal → Rotterdam Centraal | 1h05, app NS International
+10:00 | Arrivo Hotel The James Rotterdam
+11:00 | Markthal
+11:30 | Cube Houses (Kubuswoningen), Willemsbrug
+13:00 | Pranzo
+15:00 | Witte de Withstraat
+16:00 | Delfshaven (quartiere storico)
+18:00 | Het Park
++ Markthal | store | Mercato coperto a forma di arco, con un soffitto enorme interamente decorato.
++ Cube Houses | home | Case a cubo inclinate, progettate dall'architetto Piet Blom.
++ Willemsbrug | bridge | Ponte strallato sulla Mosa, noto come "Il Cigno".
++ Witte de Withstraat | palette | Via di locali, gallerie e arte contemporanea.
++ Delfshaven | water | Quartiere storico con canali e case antiche, uno dei pochi scampati ai bombardamenti.
++ Het Park | tree | Parco vicino all'Euromast, ideale per una passeggiata a fine giornata.
+
+## 11/08 – Rotterdam + gita a Delft
+10:00 | Partenza per Delft
+10:30 | Centro storico e canali
+11:30 | Grote Markt e Nieuwe Kerk (tomba di Guglielmo d'Orange)
+12:00 | Oude Kerk
+13:00 | Pranzo
+15:00 | Royal Delft (fabbrica storica della ceramica, con tour)
+17:00 | Ritorno a Rotterdam
++ Centro storico di Delft | water | Cittadina di canali e ponti, con case storiche e atmosfera tranquilla.
++ Grote Markt | city | Piazza centrale, tra il Municipio e la Nieuwe Kerk.
++ Nieuwe Kerk | church | Chiesa gotica che ospita la tomba di Guglielmo d'Orange e i sepolcri della famiglia reale.
++ Oude Kerk | church | Chiesa con una torre pendente, dove è sepolto anche il pittore Vermeer.
++ Royal Delft | palette | Manifattura storica delle ceramiche blu e bianche di Delft, con visite guidate.
+
+## 12/08 – Rotterdam → Eindhoven
+09:35 | Bus Rotterdam Centraal → Eindhoven | prenotato su Omio
+11:30 | Arrivo Boutique Hotel Lumière
+12:00 | Piazza Markt, The Blob, Chiesa di Santa Caterina
+13:00 | Pranzo
+15:00 | Passeggiata lungo il Dommel
+17:00 | Stratumseind, via della movida
+> Extra: Strijp-S (ex distretto Philips, design district con parchi e locali)
++ Piazza Markt | city | Piazza principale di Eindhoven, con locali e terrazze.
++ The Blob | building | Edificio futuristico dalla forma di una grande goccia, vicino alla piazza.
++ Chiesa di Santa Caterina | church | Chiesa neogotica nel centro della città.
++ Dommel | water | Fiume che attraversa la città, con sentieri per una passeggiata.
++ Stratumseind | beer-mug-empty | Via dei locali e della vita notturna, considerata tra le più lunghe dei Paesi Bassi.
++ Strijp-S | city | Ex distretto industriale della Philips, oggi quartiere di design con parchi e locali.
+
+## 13/08 – Eindhoven, partenza
+10:20 | Partenza da Eindhoven
+12:40 | Arrivo a Napoli
+> Treni in Belgio: app SNCB. Treno Anversa → Rotterdam: app NS International

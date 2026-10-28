@@ -1,0 +1,223 @@
+# Giappone 2026 | 2026 | 35.6895, 139.6917
+@colore #c45a7a
+@scena giappone
+@foto img/IMG_0001.JPG | Tokyo
+@foto img/IMG_0004.JPG | Kyoto
+@foto img/IMG_0006.JPG | Kanazawa
+@foto img/IMG_0007.JPG | Osaka
+
+## Partenza da Roma
+11:45 | Partenza Napoli Metropark
+15:00 | Arrivo all'aeroporto di Roma Fiumicino
+21:15 | Partenza da Roma Fiumicino
+
+## Arrivo a Seul
+16:10 | Arrivo all'aeroporto di Seul Incheon T1
+17:00 | Arrivo all'Hotel Best Western Premier Incheon Airport
+20:00 | Cena a Myeongdong - street food (tteokbokki, hotteok, mandu) e shopping
+
+## Tokyo
+08:35 | Partenza Seul-Incheon T1
+11:05 | Arrivo all'aeroporto di Tokyo Narita T2
+13:00 | Arrivo Hotel Remm Tokyo Kyobashi
+13:30 | Pranzo
+15:00 | Ikebukuro
+17:00 | Shinjuku (Shinjuku Gyoen)
+19:00 | Takeshita Street, Shibuya, Santuario Meiji
+> Opzione serale: Meguro River
++ Ikebukuro | city | Quartiere vivace con Sunshine City, centri commerciali e negozi dedicati alla cultura otaku.
++ Shinjuku Gyoen | leaf | Giardino nazionale che unisce stili giapponesi, francesi e inglesi. Celebre per l’hanami.
++ Takeshita Street | tshirt | Strada di Harajuku, cuore della moda giovanile e alternativa, con boutique eccentriche e dolci kawaii.
++ Santuario Meiji | torii-gate | Santuario shinto immerso in un bosco di oltre 100.000 alberi, dedicato all’Imperatore Meiji.
++ Meguro River | water | Fiume di Tokyo celebre per i ciliegi illuminati di notte, atmosfera romantica.
+
+## Tokyo
+09:30 | Nakamise-dori, Tempio Senso-ji, giro per Asakusa
+11:00 | Tsukiji Market - pranzo | 30 min di metro da Asakusa
+14:00 | Chidorigafuchi
+15:00 | Parco di Ueno
+19:00 | teamLab Planets Tokyo | Toyosu, aperto fino alle 22:00
++ Nakamise-dori & Senso-ji | torii-gate | Via storica che porta al più antico tempio buddhista di Tokyo, fondato nel 645.
++ Tsukiji Market | fish | Mercato gastronomico celebre per sushi freschissimo e street food.
++ Chidorigafuchi | tree | Fossato del Palazzo Imperiale, spettacolare durante la fioritura dei ciliegi.
++ Parco di Ueno | paw | Grande parco con musei, zoo e viali alberati.
++ teamLab Planets Tokyo | lightbulb | Museo digitale immersivo con installazioni interattive di luce e suono.
+
+## Tokyo
+09:00 | PokePark Koshigaya LakeTown | 1h da Tokyo
+16:00 | Akihabara
+> Asakusa se non si riesce il 1/04
++ PokePark Koshigaya LakeTown | gamepad | Parco tematico Pokémon, ideale per famiglie e fan.
++ Akihabara | bolt | Quartiere famoso per elettronica, manga, anime e cultura otaku.
+
+## Kamakura
+09:30 | Partenza per Kamakura | 1h10 con cambio treno dall'hotel
+10:15 | Visita Engakuji, Tempio Meigetsuin, Tempio Kencho-ji | Scendere alla fermata Kita-Kamakura
+11:30 | Komachi Dori, Santuario Tsurugaoka Hachimangu | 20 min a piedi/10 min metro da Tempio Kencho-ji
+13:00 | Pranzo
+14:30 | Grande Buddha, Tempio Hasedera
+16:30 | Enoshima | Dal punto 'Cancela del mare' si può vedere il Monte Fuji - 40 min dal santuario
+18:00 | Rientro a Tokyo | circa 2h
+> Extra: Hokokuji (bosco di bambù), Genjiyama Park 🌸, Zeniari Benten Shrine
++ Engakuji | torii-gate | Tempio Zen tra i più importanti di Kamakura.
++ Meigetsuin | spa | Tempio noto come 'Tempio delle ortensie'.
++ Kencho-ji | torii-gate | Il più antico tempio Zen di Kamakura.
++ Komachi Dori | store | Via commerciale con negozi e street food.
++ Tsurugaoka Hachimangu | torii-gate | Santuario shinto principale di Kamakura.
++ Grande Buddha | buddha | Statua di bronzo alta 13 metri al Tempio Kotoku-in.
++ Tempio Hasedera | spa | Tempio buddhista noto per la statua di Kannon e i giardini.
++ Enoshima | water | Isola costiera con panorami sul Monte Fuji.
+
+## Kanazawa
+08:00 | Partenza per Kanazawa | circa 3h treno shinkansen
+11:00 | Arrivo Hotel Torifito Kanazawa
+11:30 | Quartiere Higashi Chaya | 20 min a piedi dall’hotel
+13:30 | Omicho Market - pranzo | 09:00–17:00
+15:30 | Santuario Oyama, Castello di Kanazawa, Giardino Kenrokuen 🌸, Villa Seisonkaku
+17:30 | Nagamachi Samurai District
+18:00 | Quartiere Nishi Chaya e Tempio Ninjadera
+20:00 | Cena
+> Negozi: Pokemon Center (stazione di Kanazawa)
++ Quartiere Higashi Chaya | store | Storico quartiere delle case da tè.
++ Omicho Market | fish | Mercato coperto con pesce fresco e cucina locale.
++ Castello di Kanazawa | landmark | Residenza storica dei Maeda, con giardini.
++ Giardino Kenrokuen | leaf | Uno dei tre giardini più belli del Giappone.
++ Nagamachi Samurai District | shield-alt | Quartiere con case e strade dei samurai.
++ Nishi Chaya & Ninjadera | mask | Quartiere tradizionale e tempio con passaggi segreti.
+
+## Shirakawa-go + Kyoto
+09:30 | Partenza per Shirakawa-go | 1h15 bus
+11:00 | Villaggio Ogimachi, Ainokura, Residenza Wada, Suganuma
+16:30 | Partenza per Kyoto | circa 4h treno
+20:30 | Arrivo Hotel Travelodge Kyoto Shijo Kawaramachi
++ Villaggio Ogimachi | home | Patrimonio UNESCO con case gassho-zukuri.
++ Residenza Wada | home | Casa storica tradizionale della regione.
++ Suganuma | home | Piccolo villaggio con case rurali tradizionali.
+
+## Kyoto Nord (Ovest + Est)
+09:45 | Partenza per Kinkakuji | 45 min metro dall’hotel
+10:30 | Tempio d’Oro (Kinkakuji), Ryoan-ji
+12:30 | Nishiki Market | 09:00–17:00
+13:00 | Pranzo Nishiki Market
+15:00 | Tempio d’Argento, Philosopher’s Path 🌸
+20:00 | Cena
+> Negozi: Pokemon Center (20 min mezzi dal Castello di Nijo)
++ Kinkakuji (Padiglione d’Oro) | torii-gate | Tempio Zen rivestito in foglia d’oro.
++ Ryoan-ji | spa | Tempio Zen con celebre giardino di pietra.
++ Nishiki Market | fish | Mercato storico di Kyoto.
++ Ginkakuji (Padiglione d’Argento) | torii-gate | Tempio Zen con giardini paesaggistici.
++ Philosopher’s Path | tree | Sentiero lungo un canale fiancheggiato da ciliegi.
+
+## Kyoto Sud-est
+07:30 | Partenza per Fushimi Inari | 20 min metro dall’hotel
+08:00 | Fushimi Inari, Tofuku-ji
+11:00 | Kiyomizudera, Quartiere Higashiyama
+13:00 | Pranzo
+15:00 | Heian Shrine, Yasaka, Maruyama Park 🌸
+17:30 | Zona Gion e Pontocho
+20:00 | Cena
++ Fushimi Inari | torii-gate | Santuario con migliaia di torii rossi.
++ Tofuku-ji | spa | Tempio Zen noto per i giardini.
++ Kiyomizudera | torii-gate | Tempio UNESCO con terrazza panoramica.
++ Heian Shrine | torii-gate | Santuario con grande torii rosso.
++ Yasaka Shrine | torii-gate | Santuario shinto famoso per il Gion Matsuri.
++ Maruyama Park | tree | Parco celebre per l’hanami.
++ Gion & Pontocho | store | Quartieri tradizionali delle geiko e locali storici.
+
+## Kyoto Ovest (Arashiyama)
+10:00 | Castello di Nijo oppure Tempio Adashino Nenbutsu-ji
+12:00 | Foresta delle Scimmie di Iwatayama
+13:30 | Pranzo
+14:30 | Ponte Togetsukyo, Tempio Gio-ji
+16:30 | Arashiyama: Foresta di Bambù, Tenryu-ji, Giardino Okochi Sanso 🌸
+18:30 | Rientro al centro
+20:00 | Cena
++ Castello di Nijo | landmark | Residenza dello shogun Tokugawa, famosa per i 'pavimenti usignolo' che scricchiolano per segnalare intrusi.
++ Adashino Nenbutsu-ji | spa | Tempio con migliaia di statue votive, atmosfera suggestiva e spirituale.
++ Iwatayama Monkey Park | paw | Parco naturale con macachi giapponesi e vista panoramica su Kyoto.
++ Ponte Togetsukyo | bridge | Ponte simbolo di Arashiyama, incorniciato da ciliegi e montagne.
++ Tempio Gio-ji | spa | Piccolo tempio immerso in un giardino muschiato, un’oasi di pace.
++ Foresta di Bambù | tree | Celebre sentiero tra alti bambù, uno dei luoghi più fotografati di Kyoto.
++ Tenryu-ji | torii-gate | Tempio Zen UNESCO con giardino paesaggistico che riflette la filosofia shakkei.
++ Okochi Sanso | home | Villa e giardino panoramico appartenuti a un famoso attore giapponese.
+
+## Himeji + Miyajima
+08:00 | Partenza per Himeji | 1h30 circa
+09:30 | Visita Castello di Himeji
+12:00 | Partenza per Miyajima | 2h30 treno+metro+traghetto
+14:30 | Arrivo Hotel Makoto e pranzo
+16:00 | Santuario Itsukushima, Torii rosso
+16:30 | Tempio Daisho-in, Parco Momijidani
+18:00 | Santuario Hokoku, Pagoda
+20:00 | Cena in Ryokan
+> Extra: Monte Misen, spostare templi al giorno 13 mattina
++ Castello di Himeji | landmark | Il 'Castello dell’airone bianco', patrimonio UNESCO, esempio perfetto di architettura feudale giapponese.
++ Itsukushima Shrine | torii-gate | Santuario shinto con torii rosso galleggiante, uno dei panorami più iconici del Giappone.
++ Daisho-in | spa | Tempio buddhista con centinaia di statue e ruote di sutra, atmosfera mistica.
++ Momijidani Park | tree | Parco ai piedi del Monte Misen, celebre per gli aceri autunnali.
++ Hokoku Shrine (Senjokaku) | torii-gate | Grande padiglione incompiuto di Toyotomi Hideyoshi, con vista sulla baia.
+
+## Hiroshima + Osaka
+08:00 | Partenza per Hiroshima | 1h30 circa
+09:45 | Parco della Pace e Museo della Pace *
+12:00 | Castello di Hiroshima, Giardino Shukkeien
+13:00 | Pranzo
+15:30 | Partenza per Osaka | circa 2h treno
+17:30 | Arrivo Hotel Vessel Inn Namba
+18:00 | Tempio Shitennoji (da fuori)
+20:00 | Cena
+> Negozi: Pokemon Center Hiroshima, Pokemon Center Osaka DX
++ Parco della Pace di Hiroshima | peace | Memoriale dedicato alle vittime della bomba atomica, con A-Bomb Dome e Museo della Pace.
++ Castello di Hiroshima | landmark | Ricostruito dopo la guerra, oggi ospita un museo sulla storia della città.
++ Giardino Shukkeien | leaf | Giardino paesaggistico del 1620, con laghetti e case da tè.
++ Tempio Shitennoji (Osaka) | torii-gate | Fondato nel 593, è il più antico tempio buddhista statale del Giappone.
+
+## Osaka + Nara
+09:30 | Partenza per Nara | 1h circa
+11:00 | Tempio Todaiji, Parco di Nara, Giardino Isuien
+12:00 | Kasuga Taisha
+13:30 | Pranzo
+15:00 | Rientro a Osaka
+17:00 | Namba e Dotonbori
+20:00 | Cena
+> Extra Nara: Monte Yoshino 🌸, Toshodai-ji, Yakushi-ji
++ Tempio Todaiji | buddha | Tempio buddhista con il Grande Buddha in bronzo alto 15 metri.
++ Parco di Nara | paw | Ampio parco con oltre 1200 cervi sika liberi, considerati sacri.
++ Giardino Isuien | leaf | Giardino tradizionale che utilizza la tecnica dello shakkei (paesaggio preso in prestito).
++ Kasuga Taisha | torii-gate | Santuario shinto con migliaia di lanterne di pietra e bronzo.
++ Namba & Dotonbori | utensils | Quartiere vivace di Osaka, famoso per street food e insegne luminose.
+
+## Osaka
+10:00 | Castello di Osaka | 40 min metro dall’hotel
+13:00 | Pranzo
+15:00 | Umeda Sky Building, Shinsekai
+20:00 | Cena
+> Negozi: Pokemon Center Umeda
+> Extra: Acquario di Osaka, Monte Koya
++ Castello di Osaka | landmark | Simbolo della città, costruito da Toyotomi Hideyoshi, oggi museo e punto panoramico.
++ Umeda Sky Building | building | Grattacielo con osservatorio 'Floating Garden' e viste spettacolari.
++ Shinsekai | city | Quartiere retrò con la torre Tsutenkaku e ristoranti tipici.
++ Acquario di Osaka | fish | Uno dei più grandi acquari del mondo, con ecosistemi oceanici.
++ Monte Koya | mountain | Centro del buddhismo Shingon, con templi e monasteri immersi nella natura.
+
+## Universal Studios Japan
+09:00 | Visita Universal Studios Japan
++ Universal Studios Japan | film | Parco a tema con aree dedicate a Harry Potter, Super Nintendo World e Jurassic Park.
+
+## Seul
+08:30 | Partenza dall’hotel per aeroporto KIX | 1h circa
+11:35 | Partenza aeroporto Osaka - Kansai T1
+13:30 | Arrivo a Seul & pranzo
+14:00 | Arrivo Hotel Best Western Premier Incheon Airport
+16:00 | Palazzo Gyeongbokgung, Bukchon Hanok, Changdeokgung + Secret Garden, Tempio Jogyesa
+19:00 | N Seoul Tower
+20:30 | Cena
++ Gyeongbokgung Palace | landmark | Il più grande palazzo reale della dinastia Joseon, con cerimonie del cambio della guardia.
++ Bukchon Hanok Village | home | Quartiere con case tradizionali hanok, oggi centri culturali e guesthouse.
++ Changdeokgung + Secret Garden | leaf | Palazzo UNESCO con giardino segreto Huwon, un’oasi di pace.
++ Tempio Jogyesa | torii-gate | Cuore del buddhismo Seon coreano, con grandi statue e lanterne colorate.
++ N Seoul Tower | broadcast-tower | Torre panoramica sul Monte Namsan, famosa per i 'lucchetti dell’amore'.
+
+## Rientro a Roma
+12:35 | Partenza Seul-Incheon T1
+19:15 | Arrivo Roma Fiumicino T3

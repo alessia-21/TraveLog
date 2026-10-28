@@ -1,0 +1,56 @@
+# Parigi e Bruxelles 2022 | 9–12 Dicembre 2022 | 48.8566, 2.3522
+@colore #e07a5f
+@scena parigi
+@citta Parigi | 3 notti
+@citta Bruxelles | giornata
+
+## 09/12 – Arrivo a Parigi
+10:40 | Partenza da Napoli aeroporto
+13:05 | Arrivo aeroporto Parigi Beauvais
+13:30 | Navetta Beauvais-Parigi | passa ogni 20 minuti
+14:30 | Check-in Hotel Boissière
+15:00 | Pranzo
+16:30 | Centro di Parigi (7°, 14°, 15°, 16°, 17° arrondissement): La Défense, Palais des Congrès, Étoile, Arc de Triomphe, Trocadéro, Tour Eiffel, Montparnasse
++ La Défense | city | Quartiere degli affari con grattacieli moderni e la Grande Arche.
++ Arc de Triomphe | monument | Arco monumentale in cima agli Champs-Élysées, voluto da Napoleone.
++ Trocadéro | camera | Piazza con la vista più classica sulla Tour Eiffel.
++ Tour Eiffel | tower-observation | Il simbolo di Parigi, alta 330 metri, costruita per l'Expo del 1889.
++ Montparnasse | building | Quartiere storico degli artisti, con la Tour Montparnasse e una vista panoramica sulla città.
+
+## 10/12 – Louvre e centro storico
+10:30 | Louvre | durata 2–3 ore
+13:30 | Pranzo
+16:00 | Sainte-Chapelle e Conciergerie | biglietti già acquistati
+17:30 | Centro di Parigi (1°, 2°, 3°, 4°, 5°, 11°, 12°, 13° arrondissement): Forum des Halles, Beaubourg, Notre-Dame, Quartiere Latino, Panthéon, Place d'Italie, Bibliothèque, Gare de Lyon, Bastille, République
++ Louvre | palette | Il museo più visitato al mondo: dalla Gioconda alla Venere di Milo.
++ Sainte-Chapelle | church | Cappella gotica del Duecento, famosa per le immense vetrate colorate.
++ Conciergerie | building | Ex palazzo reale e prigione, dove fu detenuta Maria Antonietta.
++ Beaubourg | palette | Il Centre Pompidou, museo d'arte moderna con una facciata a tubi colorati.
++ Notre-Dame | church | Cattedrale gotica sull'Île de la Cité, simbolo di Parigi.
++ Quartiere Latino | book | Il quartiere degli studenti, con la Sorbona, librerie e vicoli vivaci.
++ Panthéon | landmark | Mausoleo che ospita le tombe di grandi francesi, tra cui Victor Hugo e Voltaire.
++ Bastille | monument | Piazza della Rivoluzione, con la Colonna di Luglio al centro.
+
+## 11/12 – Orsay e Montmartre
+10:00 | Musée d'Orsay | 2–4 ore, senza prenotazione
+14:00 | Pranzo
+16:00 | Centro di Parigi (18°, 9°, 10°, 19°, 20° arrondissement): Montmartre, Moulin Rouge, Sacré-Cœur, La Villette, Buttes-Chaumont, Père-Lachaise
++ Musée d'Orsay | palette | Museo in un'ex stazione ferroviaria, con la più grande collezione di impressionisti.
++ Montmartre | palette | Collina degli artisti, con piazzette, vicoli e viste sulla città.
++ Moulin Rouge | star | Il celebre cabaret con il mulino rosso, a Pigalle.
++ Sacré-Cœur | church | Basilica bianca in cima alla collina di Montmartre.
++ La Villette | city | Parco culturale con musei, giardini tematici e la Géode.
++ Buttes-Chaumont | tree | Parco pittoresco con rocce, laghetto e un tempietto panoramico.
++ Père-Lachaise | monument | Il cimitero più celebre di Parigi, con le tombe di Jim Morrison e Oscar Wilde.
+
+## 12/12 – Parigi → Bruxelles → Napoli
+06:45 | Metro Louise Michel (linea 3) fino a Gare Saint-Lazare, poi linea 13 fino a Cour Saint-Émilion | 45 minuti di viaggio
+07:50 | Partenza da Parigi (Flixbus, Bercy Seine)
+11:50 | Arrivo a Bruxelles (Gare du Midi)
+12:15 | Centro di Bruxelles: Grand-Place, quartiere del Sablon e Notre-Dame du Sablon
+13:00 | Pranzo
+13:30 | Verso Charleroi Airport (bus navetta da Bruxelles-Midi)
+16:30 | Partenza da Bruxelles Charleroi
+18:40 | Arrivo a Napoli aeroporto
++ Grand-Place | landmark | Piazza storica circondata da case delle corporazioni e dal Municipio gotico.
++ Sablon | church | Elegante quartiere di antiquari, con la chiesa gotica di Notre-Dame du Sablon.

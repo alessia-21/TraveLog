@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itinerari Interattivi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="viaggio.css">
+  <!-- Fogli di stile di Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="v2">
+  <nav class="navbar transparent">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
+      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
+    </ul>
+  </nav>
+
+  <div class="v2-main">
+    <div class="mp-head">
+      <h1>Scegli il tuo viaggio</h1>
+      <div class="switch" role="tablist">
+        <button id="b-mappa" class="on" type="button">Mappa</button>
+        <button id="b-elenco" type="button">Elenco</button>
+      </div>
+    </div>
+
+    <div id="vista-mappa"><div id="map"></div></div>
+
+    <div id="vista-elenco" hidden>
+      <div class="filtri">
+        <input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off">
+        <button class="chip on" data-f="tutti" type="button">Tutti</button>
+        <button class="chip" data-f="futuri" type="button">In programma</button>
+        <button class="chip" data-f="passati" type="button">Già fatti</button>
+      </div>
+      <div id="elenco"></div>
+    </div>
+  </div>
+
+  <!-- Script di Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script type="module">
+    import { loadAllTrips } from "./parser.js";
+    import { scenaSvg, dividiNome, notti } from "./ui.js";
+
+    const trips = await loadAllTrips();
+
+    // ---- data di inizio (serve per ordinare e per "In programma") ----
+    function inizio(t) {
+      const anno = (t.periodo.match(/\d{4}/) || [])[0];
+      const g = Object.values(t.giorni).find(x => x.data);
+      const oggi = new Date();
+      if (g) {
+        if (anno) return new Date(+anno, g.data.m - 1, g.data.g);
+        let d = new Date(oggi.getFullYear(), g.data.m - 1, g.data.g);   // senza anno: prossima occorrenza
+        if (d < oggi) d = new Date(oggi.getFullYear() + 1, g.data.m - 1, g.data.g);
+        return d;
+      }
+      return anno ? new Date(+anno, 0, 1) : oggi;
+    }
+    const oggi = new Date();
+    trips.forEach(t => { t._inizio = inizio(t); t._futuro = t._inizio > oggi; });
+    const ordinati = [...trips].sort((a, b) => b._inizio - a._inizio);
+
+    // ---- ELENCO ----
+    const elenco = document.getElementById("elenco");
+    let filtro = "tutti";
+    function disegnaElenco() {
+      const q = document.getElementById("cerca").value.trim().toLowerCase();
+      const ok = t => (filtro === "tutti" || (filtro === "futuri") === t._futuro) &&
+        (!q || (t.nome + " " + t.periodo).toLowerCase().includes(q));
+      const card = t => {
+        const { titolo, anno, extra } = dividiNome(t.nome);
+        return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">
+          ${t._futuro ? '<span class="tag">IN PROGRAMMA</span>' : ""}
+          <div class="art">${scenaSvg(t)}</div>
+          <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3>
+          <div class="per">${[t.periodo, notti(t), extra].filter(Boolean).join(" · ")}</div></div></a>`;
+      };
+      const futuri = ordinati.filter(t => t._futuro && ok(t));
+      const passati = ordinati.filter(t => !t._futuro && ok(t));
+      let html = "";
+      if (futuri.length) html += `<div class="sezione">In programma</div><div class="cards">${futuri.map(card).join("")}</div>`;
+      if (passati.length) html += `<div class="sezione">Già fatti</div><div class="cards">${passati.map(card).join("")}</div>`;
+      elenco.innerHTML = html || '<p class="vuoto">Nessun viaggio trovato.</p>';
+    }
+    disegnaElenco();
+    document.getElementById("cerca").addEventListener("input", disegnaElenco);
+    document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === c));
+      filtro = c.dataset.f; disegnaElenco();
+    }));
+
+    // ---- INTERRUTTORE Mappa / Elenco ----
+    const vMappa = document.getElementById("vista-mappa"), vElenco = document.getElementById("vista-elenco");
+    let map;
+    function vai(v) {
+      vMappa.hidden = v !== "mappa"; vElenco.hidden = v !== "elenco";
+      document.getElementById("b-mappa").classList.toggle("on", v === "mappa");
+      document.getElementById("b-elenco").classList.toggle("on", v === "elenco");
+      if (v === "mappa" && map) setTimeout(() => map.invalidateSize(), 50);
+      try { localStorage.setItem("vistaItinerari", v); } catch (e) {}
+    }
+    document.getElementById("b-mappa").onclick = () => vai("mappa");
+    document.getElementById("b-elenco").onclick = () => vai("elenco");
+
+    // ---- MAPPA ----
+    try {
+      map = L.map('map').setView([20, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors', maxZoom: 19
+      }).addTo(map);
+
+      // un marker per ogni zona: i viaggi vicini tra loro finiscono nello stesso marker
+      const gruppi = [];
+      trips.forEach(t => {
+        let g = gruppi.find(g => Math.abs(g.lat - t.lat) < 0.5 && Math.abs(g.lng - t.lng) < 0.5);
+        if (!g) { g = { lat: t.lat, lng: t.lng, trips: [] }; gruppi.push(g); }
+        g.trips.push(t);
+      });
+      gruppi.forEach(g => {
+        const colore = g.trips[0].colore;
+        const pin = L.divIcon({
+          className: 'pin pin-v2',
+          html: `<i class="fas fa-location-dot" style="color:${colore}"></i>`,
+          iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -30]
+        });
+        const html = g.trips.map(t =>
+          `<div class="popup-viaggio"><a href="viaggio.html?trip=${t.id}" class="map-btn" style="background:${t.colore}">` +
+          `<i class="fas fa-plane"></i> ${t.nome}</a>` +
+          (t.periodo ? `<br><small>${t.periodo}</small>` : "") + `</div>`).join("");
+        L.marker([g.lat, g.lng], { icon: pin }).addTo(map).bindPopup(html);
+      });
+      if (trips.length) map.fitBounds(trips.map(t => [t.lat, t.lng]), { padding: [60, 60], maxZoom: 5 });
+    } catch (e) {
+      document.getElementById("map").innerHTML = '<p class="vuoto">Mappa non disponibile: usa la vista Elenco.</p>';
+    }
+
+    let ultima = "mappa";
+    try { ultima = localStorage.getItem("vistaItinerari") || "mappa"; } catch (e) {}
+    vai(ultima === "elenco" ? "elenco" : "mappa");
+  </script>
+</body>
+
+</html>

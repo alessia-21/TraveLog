@@ -1,0 +1,40 @@
+# Londra Dicembre 2023 | 8–11 Dicembre 2023 | 51.5074, -0.1278
+@colore #c8353d
+@scena londra
+
+## 08/12 – Arrivo a Londra
+19:30 | Partenza da Napoli
+21:15 | Arrivo aeroporto Heathrow | Elizabeth line fino a Liverpool Street, 57 min
+22:15 | Arrivo Point A Hotel London Liverpool Street
+
+## 09/12 – Soho, City e Sky Garden
+10:00 | Passeggiata a Soho e Covent Garden
+18:00 | La City
+19:15 | Vista dallo Sky Garden
+20:30 | Cena e passeggiata lungo il Tower Bridge
++ Soho | star | Quartiere vivace di locali, teatri e vicoli, nel cuore del West End.
++ Covent Garden | store | Piazza con mercato coperto, artisti di strada e negozi.
++ Sky Garden | tower-observation | Giardino panoramico sulla cima di un grattacielo, con vista sulla città.
++ Tower Bridge | bridge | Ponte levatoio vittoriano, simbolo di Londra.
+
+## 10/12 – Westminster e Winter Wonderland
+10:00 | Passeggiata: London Eye, Westminster Bridge, Big Ben, Buckingham Palace
+16:00 | Ingresso a Winter Wonderland | fino alle 18:00
+18:00 | Pista di pattinaggio sul ghiaccio | fino alle 18:50
+20:30 | Cena e giro ai mercatini del Southbank Centre | aperti fino alle 22:00
++ London Eye | ferris-wheel | La ruota panoramica di 135 metri, con vista su tutta la città.
++ Westminster Bridge | bridge | Ponte sul Tamigi di fronte al Parlamento, con vista su Big Ben.
++ Big Ben | landmark | La torre dell'orologio del Parlamento, simbolo di Londra.
++ Buckingham Palace | landmark | Residenza ufficiale del sovrano, con il cambio della guardia.
++ Winter Wonderland | star | Grande mercatino natalizio a Hyde Park, con giostre, bancarelle e pista di pattinaggio.
++ Mercatini del Southbank Centre | store | Bancarelle natalizie lungo il Tamigi.
+
+## 11/12 – Rientro
+11:00 | Passeggiata: Piccadilly Circus, Regent Street, Oxford Street
+15:00 | Partenza dall'hotel | 1h 20 min per l'aeroporto
+18:40 | Partenza da Gatwick Airport
+22:30 | Arrivo a Napoli
+> La metro passa fino a mezzanotte (ultima corsa)
++ Piccadilly Circus | landmark | Celebre incrocio con schermi luminosi, nel cuore del West End.
++ Regent Street | store | Elegante via commerciale curva, con negozi storici.
++ Oxford Street | bag-shopping | La principale via dello shopping di Londra.

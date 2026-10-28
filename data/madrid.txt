@@ -1,0 +1,54 @@
+# Madrid 2026 | 17–19 Ottobre 2026 | 40.4168, -3.7038
+@colore #d9822b
+@scena madrid
+
+## 17/10 – Sol, Austrias, Palazzo Reale
+06:50 | Partenza da Napoli
+09:35 | Arrivo aeroporto Madrid
+11:00 | Arrivo Hostal Sun Gate
+11:30 | Puerta del Sol (Orso e Corbezzolo, Real Casa de Correos, Km 0, Tío Pepe), San Ginés (churros) e Plaza Mayor
+12:30 | Mercado de San Miguel, Plaza de la Villa (Casa de la Villa, Casa de Cisneros, Torre de los Lujanes)
+13:30 | Pranzo
+15:00 | Palazzo Reale | a pagamento, acquistato
+17:00 | Cattedrale dell'Almudena, Plaza de Oriente e Giardini di Sabatini, Campo del Moro
+19:00 | Tempio di Debod – tramonto
+19:50 | Plaza de España
+20:00 | Gran Vía a piedi verso Callao: Edificio Carrión
+20:45 | Cena
++ Puerta del Sol | city | Piazza centrale di Madrid con il Km 0, da cui si misurano le strade radiali della Spagna, e la statua dell'Orso e del Corbezzolo, simbolo della città.
++ San Ginés | mug-hot | Storica chocolatería vicino alla Plaza Mayor, famosa per i churros con cioccolata calda.
++ Plaza Mayor | landmark | Grande piazza porticata del primo Seicento, circondata da edifici uniformi, cuore della Madrid storica.
++ Mercado de San Miguel | store | Mercato coperto in ferro e vetro dei primi del Novecento, oggi dedicato a tapas e prodotti gastronomici.
++ Palazzo Reale | landmark | Residenza ufficiale della famiglia reale spagnola, usata per le cerimonie di Stato e tra i più grandi palazzi reali d'Europa.
++ Cattedrale dell'Almudena | church | Cattedrale di Madrid, neogotica all'esterno e più moderna all'interno, consacrata nel 1993.
++ Tempio di Debod | monument | Antico tempio egizio donato alla Spagna nel 1968 e ricostruito in un parco; celebre per i tramonti.
++ Gran Vía | city | Grande arteria di Madrid con edifici dei primi del Novecento, teatri e negozi, fino all'Edificio Carrión con la sua insegna luminosa.
+
+## 18/10 – Rastro, Lavapiés, Reina Sofía, Prado, Chueca
+09:00 | El Rastro (mercato), Plaza de Cascorro
+10:30 | Verso il Reina Sofía passando per Lavapiés (corralas, Calle Mesón de Paredes)
+11:00 | Museo Reina Sofía | a pagamento, acquistato
+14:00 | Pranzo al Mercado de San Fernando
+15:30 | Museo del Prado | a pagamento, acquistato
+18:30 | Plaza de Cibeles, Palacio de Cibeles, Puerta de Alcalá
+19:30 | Chueca (Plaza de Chueca, Palacio de Longoria, Mercado de San Antón)
+20:30 | Cena
++ El Rastro | store | Storico mercato all'aperto della domenica, tra La Latina e Lavapiés, con bancarelle di ogni genere.
++ Lavapiés | city | Quartiere multiculturale e vivace, con le tipiche corralas e molta street art.
++ Museo Reina Sofía | palette | Museo d'arte moderna e contemporanea che custodisce il Guernica di Picasso.
++ Museo del Prado | palette | Una delle più importanti pinacoteche del mondo, con opere di Velázquez, Goya e El Greco.
++ Plaza de Cibeles | landmark | Piazza con la fontana della dea Cibele sul carro trainato da leoni e lo scenografico Palacio de Cibeles.
++ Puerta de Alcalá | archway | Monumentale porta neoclassica del Settecento, simbolo di Madrid.
++ Chueca | city | Quartiere vivace e aperto, con piazze, locali e il Mercado de San Antón.
+
+## 19/10 – Letras, Retiro e partenza
+10:00 | Calle de Alcalá e Parco del Retiro: stagno, viali, monumento ad Alfonso XII | Palacio de Cristal chiuso
+13:00 | Pranzo
+14:30 | Barrio de las Letras: Plaza de Santa Ana, Calle de las Huertas, Plaza de las Cortes
+16:00 | Trasferimento verso l'aeroporto | circa 35 min
+20:00 | Partenza da Madrid
+> Extra: Museo Thyssen (il lunedì gratis 12:00–16:00), Stadio Bernabéu, Quartiere Salamanca, Quartiere Malasaña
++ Parco del Retiro | tree | Grande parco storico di Madrid con stagno, viali alberati e il monumento ad Alfonso XII.
++ Palacio de Cristal | building | Padiglione in vetro e ferro del 1887 all'interno del Retiro.
++ Barrio de las Letras | book | Quartiere in cui vissero Cervantes, Lope de Vega e Quevedo; nelle vie sono incise frasi dei loro versi.
++ Plaza de Santa Ana | city | Piazza animata da bar e terrazze nel cuore del quartiere delle Lettere.
