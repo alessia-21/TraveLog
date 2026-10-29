@@ -1,32 +1,139 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<title>Il Mio Viaggio</title>
-  	<link rel="stylesheet" href="style.css">
-  	<!-- icone -->
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Il Mio Viaggio</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="viaggio.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    .home-hero { --acc: #a48be0; padding-bottom: 190px; min-height: 440px; }
+    .home-hero .hero-text { max-width: 640px; }
+    body.v2 .home-hero p { max-width: 460px; font-size: 17px; line-height: 1.5; margin-top: 18px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .cta a { text-decoration: none; font: 800 15px 'Nunito', sans-serif; padding: 13px 24px; border-radius: 99px; }
+    .cta .p { background: #7a5fc4; color: #fff; box-shadow: 0 8px 18px rgba(122,95,196,.35); }
+    .cta .s { background: rgba(255,255,255,.7); color: #4a3d78; }
+    #rotta svg.rotta { position: absolute; right: 2%; top: 4%; width: 52%; height: 60%; z-index: 1; opacity: .9; }
+    .skyline { position: absolute; left: 0; right: 0; bottom: 0; height: 210px; z-index: 1; }
+    .skyline svg { width: 100%; height: 100%; display: block; }
+    .stats { position: relative; display: flex; margin: 16px 0 0; background: #fff; border-radius: 24px; box-shadow: 0 12px 28px rgba(110,80,180,.13); overflow: hidden; }
+    .stat { flex: 1; padding: 18px 20px 16px; position: relative; }
+    .stat + .stat { border-left: 2px dashed #d8ccf3; }
+    .stat small { display: block; font: 800 10.5px 'Nunito', sans-serif; letter-spacing: .18em; color: #9a8fc0; margin-bottom: 6px; text-transform: uppercase; }
+    .stat strong { display: block; font: 700 38px 'Fraunces', Georgia, serif; color: #7a5fc4; line-height: 1; }
+    .stat span { font-size: 13px; color: #8a80ac; font-weight: 600; }
+    .stats .ic { flex: none; width: 70px; display: grid; place-items: center; background: #ece4fb; color: #7a5fc4; font-size: 22px; }
+    .next { display: none; align-items: center; gap: 18px; margin-top: 16px; padding: 22px 26px; border-radius: 26px; color: #fff; text-decoration: none;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--acc) 72%, #0e1424), var(--acc)); box-shadow: 0 10px 26px rgba(40,30,20,.14); }
+    .next small { letter-spacing: .2em; font-size: 11px; font-weight: 800; opacity: .85; }
+    .next b { display: block; font: 700 26px 'Fraunces', Georgia, serif; margin-top: 4px; }
+    .next .cd { margin-left: auto; text-align: right; }
+    .next .cd strong { display: block; font: 700 46px 'Fraunces', Georgia, serif; line-height: 1; }
+    .hd { display: flex; justify-content: space-between; align-items: baseline; margin: 34px 2px 14px; }
+    .hd h2 { font-size: 28px; margin: 0; }
+    .hd a { font-weight: 800; font-size: 14px; color: #7a5fc4; }
+    .strip { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 16px; scroll-snap-type: x mandatory; }
+    .strip .trip-card { flex: 0 0 260px; scroll-snap-align: start; }
+    .go { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+    .go a { display: flex; gap: 16px; align-items: center; text-decoration: none; color: #2d2150; background: #fff; border-radius: 24px; padding: 22px; box-shadow: 0 12px 28px rgba(110,80,180,.13); transition: transform .15s; }
+    .go a:hover { transform: translateY(-3px); }
+    .go i { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 22px; flex: none; }
+    .go b { display: block; font: 700 21px 'Fraunces', Georgia, serif; }
+    .go span { font-size: 13px; color: #8a80ac; }
+    @media (max-width: 760px) { .home-hero { padding: 28px 22px 170px; } .stats { flex-wrap: wrap; } .stat { flex: 1 1 45%; } .stat + .stat { border-left: 0; } .stats .ic { display: none; } .skyline { height: 150px; } .go { grid-template-columns: 1fr; } }
+  </style>
 </head>
 
-<body>
-	<nav class="navbar transparent">
-  		<ul>
-    		<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-    		<li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
-    		<li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
-  		</ul>
-	</nav>
+<body class="v2">
+  <nav class="navbar transparent">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
+      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
+    </ul>
+  </nav>
 
-	<!-- Hero section -->
-	<section class="hero">
-   		<div class="hero-content">
-     		<h1>Benvenuto nel mio diario di viaggio</h1>
-     		<a href="itinerari.html" class="btn-primary">Scopri gli itinerari</a>
-   		</div>
-	</section>
+  <div class="v2-main">
+    <section class="trip-hero home-hero">
+      <div class="hero-text">
+        <small>il mio diario di viaggio</small>
+        <h1>Ogni viaggio,<em>una storia</em></h1>
+        <p>Tutti i miei itinerari in un posto solo: sulla mappa, giorno per giorno, con i luoghi da non perdere.</p>
+        <div class="cta">
+          <a class="p" href="itinerari.html">Apri la mappa</a>
+          <a class="s" href="itinerari.html">Sfoglia i viaggi</a>
+        </div>
+      </div>
+      <div id="rotta"></div>
+      <div class="skyline" id="skyline"></div>
+    </section>
+
+    <div class="stats" id="stats"></div>
+    <a class="next" id="next"></a>
+
+    <div class="hd"><h2>Gli ultimi viaggi</h2><a href="itinerari.html">Vedi tutti →</a></div>
+    <div class="strip" id="strip"></div>
+
+    <div class="go">
+      <a href="itinerari.html"><i style="background:#f0c36a" class="fas fa-route"></i><div><b>Itinerari</b><span>Sulla mappa, giorno per giorno</span></div></a>
+      <a href="scopri.html"><i style="background:#8fc5ea" class="fas fa-compass"></i><div><b>Scopri di più</b><span>I luoghi da non perdere</span></div></a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { loadAllTrips } from "./parser.js";
+    import { SCENE } from "./scene.js";
+    import { scenaSvg, dividiNome, notti, ROTTA } from "./ui.js";
+    document.getElementById("rotta").innerHTML = ROTTA;
+
+    const trips = await loadAllTrips();
+
+    // ---- skyline: alcuni monumenti in fila ----
+    const ordine = ["londra", "parigi", "atene", "berlino", "edimburgo", "madrid"].filter(k => SCENE[k]);
+    const w = 330, tot = (ordine.length - 1) * 250 + w;
+    document.getElementById("skyline").innerHTML =
+      `<svg viewBox="0 0 ${tot} 176" preserveAspectRatio="xMidYMax slice">` +
+      ordine.map((k, i) => SCENE[k].replace(/<!--d-->[\s\S]*?<!--\/d-->/, "").replace(/<circle[^>]*ffd9a0[^>]*\/>/, "").replace(/<svg[^>]*>/, `<svg x="${i * 250}" y="0" width="${w}" height="176" viewBox="0 0 560 300">`)).join("") + `</svg>`;
+
+    // ---- numeri ----
+    const giorni = trips.reduce((s, t) => s + Object.keys(t.giorni).length, 0);
+    const luoghi = trips.reduce((s, t) => s + Object.values(t.giorni).reduce((a, g) => a + g.luoghi.length, 0), 0);
+    const dest = new Set(trips.map(t => t.scena)).size;
+    document.getElementById("stats").innerHTML =
+      `<div class="ic"><i class="fas fa-plane"></i></div>` + [[trips.length, "viaggi", "VOLI"], [giorni, "giorni in giro", "GIORNI"], [luoghi, "luoghi scoperti", "LUOGHI"], [dest, "destinazioni", "META"]]
+        .map(([n, l, k]) => `<div class="stat"><small>${k}</small><strong>${n}</strong><span>${l}</span></div>`).join("");
+
+    // ---- data di inizio di ogni viaggio ----
+    const oggi = new Date();
+    function inizio(t) {
+      const anno = (t.periodo.match(/\d{4}/) || [])[0];
+      const g = Object.values(t.giorni).find(x => x.data);
+      if (g && anno) return new Date(+anno, g.data.m - 1, g.data.g);
+      if (g) { let d = new Date(oggi.getFullYear(), g.data.m - 1, g.data.g); if (d < oggi) d.setFullYear(d.getFullYear() + 1); return d; }
+      return anno ? new Date(+anno, 0, 1) : oggi;
+    }
+    trips.forEach(t => t._inizio = inizio(t));
+
+    // ---- prossimo viaggio (solo se ce n'è uno futuro) ----
+    const futuri = trips.filter(t => t._inizio > oggi).sort((a, b) => a._inizio - b._inizio);
+    if (futuri.length) {
+      const t = futuri[0], n = Math.ceil((t._inizio - oggi) / 864e5);
+      const el = document.getElementById("next");
+      el.href = "viaggio.html?trip=" + t.id; el.style.setProperty("--acc", t.colore); el.style.display = "flex";
+      el.innerHTML = `<div><small>PROSSIMO VIAGGIO</small><b>${dividiNome(t.nome).titolo}</b></div><div class="cd"><strong>${n}</strong><span>${n === 1 ? "giorno" : "giorni"} alla partenza</span></div>`;
+    }
+
+    // ---- ultimi viaggi ----
+    const passati = trips.filter(t => t._inizio <= oggi).sort((a, b) => b._inizio - a._inizio).slice(0, 8);
+    document.getElementById("strip").innerHTML = passati.map(t => {
+      const { titolo, anno } = dividiNome(t.nome);
+      return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}"><div class="art">${scenaSvg(t)}</div>
+        <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3><div class="per">${[t.periodo, notti(t)].filter(Boolean).join(" · ")}</div></div></a>`;
+    }).join("");
+  </script>
+<script>(function(){var p=location.pathname.split("/").pop()||"index.html";var m={"viaggio.html":"itinerari.html","scopriViaggio.html":"scopri.html"};p=m[p]||p;document.querySelectorAll(".navbar a").forEach(function(a){if(a.getAttribute("href")===p)a.classList.add("on");});})();</script>
 </body>
-
 </html>
