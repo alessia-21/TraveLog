@@ -1,18 +1,22 @@
-giappone
-tokyo
-atene
-madrid
-belgio-olanda
-olanda
-lisbona
-praga
-grecia
-manchester
-dublino
-londra
-londra2023
-londra-dicembre
-berlino
-parigi
-monaco
-edimburgo
+// data/index.txt — un viaggio per riga:   id | tipo | area
+//   tipo: fuga | avventura        area: europa | asia
+//   (l'ordine delle righe è quello usato dal sito)
+
+giappone | avventura | asia
+tokyo | avventura | asia
+atene | fuga | europa
+madrid | fuga | europa
+belgio-olanda | avventura | europa
+olanda | fuga | europa
+lisbona | fuga | europa
+praga | fuga | europa
+grecia | avventura | europa
+manchester | fuga | europa
+dublino | fuga | europa
+londra | fuga | europa
+londra2023 | fuga | europa
+londra-dicembre | fuga | europa
+berlino | fuga | europa
+parigi | fuga | europa
+monaco | fuga | europa
+edimburgo | fuga | europa
