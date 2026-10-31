@@ -175,3 +175,66 @@ export async function montaViaggio(modo) {
   window.addEventListener("hashchange", mostra);
   mostra();
 }
+
+// ==========================================================
+// MENU IN BASSO (solo telefono): rotta tratteggiata + aeroplanino
+// Si attiva da solo su ogni pagina che importa ui.js.
+// Dentro un viaggio le voci diventano: Home · Viaggi · Itinerario · Da vedere
+// ==========================================================
+function montaMenu() {
+  if (document.getElementById("bar-viaggio")) return;
+  const pagina = (location.pathname.split("/").pop() || "index.html");
+  const trip = new URLSearchParams(location.search).get("trip");
+  const q = trip ? "?trip=" + encodeURIComponent(trip) : "";
+  const dentro = pagina === "viaggio.html" || pagina === "scopriViaggio.html";
+
+  const voci = dentro
+    ? [["index.html", "house", "Home", "index.html"],
+       ["itinerari.html", "map-location-dot", "Viaggi", "itinerari.html"],
+       ["viaggio.html" + q, "route", "Itinerario", "viaggio.html"],
+       ["scopriViaggio.html" + q, "compass", "Da vedere", "scopriViaggio.html"]]
+    : [["index.html", "house", "Home", "index.html"],
+       ["itinerari.html", "map-location-dot", "Itinerari", "itinerari.html"],
+       ["scopri.html", "compass", "Scopri", "scopri.html"]];
+
+  const attiva = Math.max(0, voci.findIndex(v => v[3] === pagina));
+  const pos = i => ((i + .5) / voci.length) * 100;
+
+  const s = document.createElement("style");
+  s.textContent = `
+    .bar { display: none; }
+    @media (max-width: 760px) {
+      body.v2 .navbar.transparent { display: none; }
+      body.v2 .v2-main { padding-top: 18px; padding-bottom: 110px; }
+      .bar { display: flex; position: fixed; z-index: 1000; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
+        padding: 22px 6px 8px; border-radius: 26px; background: rgba(255,255,255,.97); box-shadow: 0 12px 32px rgba(110,80,180,.28); }
+      .bar-rotta { position: absolute; left: 22px; right: 22px; top: 12px; border-top: 2px dashed #d8ccf3; }
+      .bar-rotta::before, .bar-rotta::after { content: ""; position: absolute; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: #d8ccf3; }
+      .bar-rotta::before { left: -4px; } .bar-rotta::after { right: -4px; }
+      .bar-aereo { position: absolute; top: -1px; width: 28px; height: 28px; margin-left: -14px; display: grid; place-items: center;
+        border-radius: 50%; background: var(--lilla, #7a5fc4); color: #fff; font-size: 12px; box-shadow: 0 4px 10px rgba(122,95,196,.45);
+        transition: left .55s cubic-bezier(.5,0,.2,1); }
+      .bar a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 0 2px; text-decoration: none;
+        color: #9a8fc0; font: 800 11px 'Nunito', sans-serif; -webkit-tap-highlight-color: transparent; }
+      .bar a i { font-size: 19px; transition: transform .2s; }
+      .bar a.on { color: var(--lilla, #7a5fc4); }
+      .bar a.on i { transform: translateY(-1px) scale(1.08); }
+    }
+    @media (prefers-reduced-motion: reduce) { .bar-aereo { transition: none; } }`;
+  document.head.appendChild(s);
+
+  const nav = document.createElement("nav");
+  nav.id = "bar-viaggio"; nav.className = "bar"; nav.setAttribute("aria-label", "Menu");
+  nav.innerHTML = `<span class="bar-rotta"></span><span class="bar-aereo"><i class="fas fa-plane"></i></span>` +
+    voci.map((v, i) => `<a href="${v[0]}"${i === attiva ? ' class="on" aria-current="page"' : ""}><i class="fas fa-${v[1]}"></i><span>${v[2]}</span></a>`).join("");
+  document.body.appendChild(nav);
+
+  // l'aeroplanino parte dalla voce della pagina precedente e vola fino a quella attuale
+  const aereo = nav.querySelector(".bar-aereo");
+  let da = pos(attiva);
+  try { const p = sessionStorage.getItem("barPos"); if (p !== null) da = +p; } catch (e) {}
+  aereo.style.left = da + "%";
+  requestAnimationFrame(() => requestAnimationFrame(() => { aereo.style.left = pos(attiva) + "%"; }));
+  try { sessionStorage.setItem("barPos", pos(attiva)); } catch (e) {}
+}
+montaMenu();
