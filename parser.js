@@ -29,8 +29,11 @@ export const AREE = {
   asia:   { emoji: "🌸", nome: "Asia" }
 };
 
+// da quanti giorni in poi un viaggio è "avventura" (sotto = "fuga")
+export const SOGLIA_AVVENTURA = 5;
+
 export function parseTrip(testo) {
-  const trip = { nome: "", periodo: "", lat: 0, lng: 0, foto: [], citta: [], colore: "#6a0dad", scena: "", tipo: "fuga", area: "", giorni: {} };
+  const trip = { nome: "", periodo: "", lat: 0, lng: 0, foto: [], citta: [], colore: "#6a0dad", scena: "", tipo: "", area: "", giorni: {} };
   let n = 0;
   let giorno = null;
 
@@ -150,18 +153,26 @@ export async function loadTrip(id) {
   return trip;
 }
 
-// data/index.txt: un viaggio per riga, nel formato   id | tipo | area
-//   es.  madrid | fuga | europa      (tipo e area sono facoltativi; l'ordine è quello mostrato)
-// Se il file del viaggio ha già @tipo / @area, valgono quelli di index.txt solo se indicati qui.
+// data/index.txt: un viaggio per riga, nel formato   id | area      es.  madrid | europa
+//   (l'ordine è quello mostrato). Il tipo si calcola dai giorni (SOGLIA_AVVENTURA);
+//   per forzarlo aggiungilo:   lisbona | fuga | europa
+//   Se il file del viaggio ha già @tipo / @area, valgono quelli di index.txt solo se indicati qui.
 export async function loadAllTrips() {
   const res = await fetch("data/index.txt", { cache: "no-cache" });
   const voci = (await res.text())
     .split(/\r?\n/).map(s => s.trim())
     .filter(s => s && !s.startsWith("//"))
-    .map(r => { const [id, tipo, area] = r.split("|").map(s => (s || "").trim().toLowerCase()); return { id, tipo, area }; });
+    .map(r => {
+      // dopo l'id, l'ordine non conta: "europa" è l'area, "fuga"/"avventura" il tipo (facoltativo)
+      const [id, ...resto] = r.split("|").map(s => s.trim().toLowerCase());
+      return { id, tipo: resto.find(x => TIPI[x]) || "", area: resto.find(x => AREE[x]) || "" };
+    });
   const risultati = await Promise.allSettled(voci.map(v =>
     loadTrip(v.id).then(t => {
+      // tipo: se scritto in index.txt (fuga/avventura) vale quello; altrimenti automatico:
+      // fino a 4 giorni = fuga, da 5 giorni in su = avventura
       if (TIPI[v.tipo]) t.tipo = v.tipo;
+      else t.tipo = t.tipo || (Object.keys(t.giorni).length >= SOGLIA_AVVENTURA ? "avventura" : "fuga");
       if (AREE[v.area]) t.area = v.area;
       return t;
     })));
