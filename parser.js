@@ -5,6 +5,8 @@
 //   @foto img/IMG_0001.JPG | Tokyo                         <- opzionale, una riga per foto
 //   @colore #c8353d                                        <- opzionale, colore del viaggio
 //   @scena londra                                          <- opzionale, disegno del banner (vedi scene.js)
+//   @tipo fuga                                             <- opzionale: "fuga" oppure "avventura" (se manca: fuga)
+//   @area europa                                           <- opzionale: "europa" oppure "asia" (se manca: nessuna etichetta)
 //   @citta Osaka | 3 notti                                 <- opzionale, "pillola" delle tappe nel banner
 //   ## Titolo del giorno                                   <- inizia un nuovo giorno
 //   08:45 | Attività | nota facoltativa                    <- una riga per attività
@@ -17,8 +19,18 @@
 const SEP = " | ";
 const PALETTE = ["#d9a63c", "#e58aa3", "#d9442f", "#6f9bd6", "#7bb08a", "#a78bd0"];
 
+// ---- categorie "travel" (usate da itinerari.html) ----
+export const TIPI = {
+  fuga:      { emoji: "✈️", nome: "Fughe" },
+  avventura: { emoji: "🌍", nome: "Avventure" }
+};
+export const AREE = {
+  europa: { emoji: "🇪🇺", nome: "Europa" },
+  asia:   { emoji: "🌸", nome: "Asia" }
+};
+
 export function parseTrip(testo) {
-  const trip = { nome: "", periodo: "", lat: 0, lng: 0, foto: [], citta: [], colore: "#6a0dad", scena: "", giorni: {} };
+  const trip = { nome: "", periodo: "", lat: 0, lng: 0, foto: [], citta: [], colore: "#6a0dad", scena: "", tipo: "fuga", area: "", giorni: {} };
   let n = 0;
   let giorno = null;
 
@@ -42,6 +54,12 @@ export function parseTrip(testo) {
       trip.colore = riga.slice(7).trim();
     } else if (riga.startsWith("@scena")) {
       trip.scena = riga.slice(6).trim();
+    } else if (riga.startsWith("@tipo")) {
+      const v = riga.slice(5).trim().toLowerCase();
+      trip.tipo = TIPI[v] ? v : "fuga";
+    } else if (riga.startsWith("@area")) {
+      const v = riga.slice(5).trim().toLowerCase();
+      trip.area = AREE[v] ? v : "";
     } else if (riga.startsWith("@citta")) {
       const [nome, info, colore] = riga.slice(6).split(SEP).map(s => s.trim());
       trip.citta.push({ nome, info: info || "", colore: colore || PALETTE[trip.citta.length % PALETTE.length] });
@@ -132,13 +150,21 @@ export async function loadTrip(id) {
   return trip;
 }
 
-// data/index.txt: un id di viaggio per riga (l'ordine è quello mostrato)
+// data/index.txt: un viaggio per riga, nel formato   id | tipo | area
+//   es.  madrid | fuga | europa      (tipo e area sono facoltativi; l'ordine è quello mostrato)
+// Se il file del viaggio ha già @tipo / @area, valgono quelli di index.txt solo se indicati qui.
 export async function loadAllTrips() {
   const res = await fetch("data/index.txt", { cache: "no-cache" });
-  const ids = (await res.text())
+  const voci = (await res.text())
     .split(/\r?\n/).map(s => s.trim())
-    .filter(s => s && !s.startsWith("//"));
-  const risultati = await Promise.allSettled(ids.map(loadTrip));
+    .filter(s => s && !s.startsWith("//"))
+    .map(r => { const [id, tipo, area] = r.split("|").map(s => (s || "").trim().toLowerCase()); return { id, tipo, area }; });
+  const risultati = await Promise.allSettled(voci.map(v =>
+    loadTrip(v.id).then(t => {
+      if (TIPI[v.tipo]) t.tipo = v.tipo;
+      if (AREE[v.area]) t.area = v.area;
+      return t;
+    })));
   return risultati.filter(r => r.status === "fulfilled").map(r => r.value);
 }
 

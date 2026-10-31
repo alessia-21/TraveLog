@@ -11,6 +11,14 @@
   <!-- icone -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* etichetta area sulla card (in alto a sinistra) */
+    .trip-card .tag { text-transform: none; font-size: 18px; padding: 4px 11px; }
+    /* badge "in programma" in alto a destra */
+    .trip-card .tag.prog { left: auto; right: 12px; background: var(--lilla); color: #fff; font-size: 16px; }
+    /* secondo filtro (area): chip più piccoli */
+    .chip-s { font-size: 12.5px; padding: 8px 14px; }
+  </style>
 </head>
 
 <body class="v2">
@@ -36,9 +44,18 @@
     <div id="vista-elenco" hidden>
       <div class="filtri">
         <input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off">
-        <button class="chip on" data-f="tutti" type="button">Tutti</button>
-        <button class="chip" data-f="futuri" type="button">In programma</button>
-        <button class="chip" data-f="passati" type="button">Già fatti</button>
+      </div>
+      <!-- filtro per tipo di viaggio -->
+      <div class="filtri" id="f-tipo">
+        <button class="chip on" data-t="tutti" type="button">Tutti</button>
+        <button class="chip" data-t="fuga" type="button">✈️ Fughe</button>
+        <button class="chip" data-t="avventura" type="button">🌍 Avventure</button>
+      </div>
+      <!-- filtro per area -->
+      <div class="filtri" id="f-area">
+        <button class="chip chip-s on" data-a="tutti" type="button">Ovunque</button>
+        <button class="chip chip-s" data-a="europa" type="button">🇪🇺 Europa</button>
+        <button class="chip chip-s" data-a="asia" type="button">🌸 Asia</button>
       </div>
       <div id="elenco"></div>
     </div>
@@ -47,12 +64,12 @@
   <!-- Script di Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script type="module">
-    import { loadAllTrips } from "./parser.js";
+    import { loadAllTrips, TIPI, AREE } from "./parser.js";
     import { scenaSvg, dividiNome, notti } from "./ui.js";
 
     const trips = await loadAllTrips();
 
-    // ---- data di inizio (serve per ordinare e per "In programma") ----
+    // ---- data di inizio (serve per ordinare e per il badge "In programma") ----
     function inizio(t) {
       const anno = (t.periodo.match(/\d{4}/) || [])[0];
       const g = Object.values(t.giorni).find(x => x.data);
@@ -71,31 +88,39 @@
 
     // ---- ELENCO ----
     const elenco = document.getElementById("elenco");
-    let filtro = "tutti";
+    let filtroTipo = "tutti", filtroArea = "tutti";
     function disegnaElenco() {
       const q = document.getElementById("cerca").value.trim().toLowerCase();
-      const ok = t => (filtro === "tutti" || (filtro === "futuri") === t._futuro) &&
+      const ok = t =>
+        (filtroTipo === "tutti" || t.tipo === filtroTipo) &&
+        (filtroArea === "tutti" || t.area === filtroArea) &&
         (!q || (t.nome + " " + t.periodo).toLowerCase().includes(q));
       const card = t => {
         const { titolo, anno, extra } = dividiNome(t.nome);
+        const a = AREE[t.area];
         return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">
-          ${t._futuro ? '<span class="tag">IN PROGRAMMA</span>' : ""}
+          ${a ? `<span class="tag">${a.emoji} ${a.nome}</span>` : ""}
+          ${t._futuro ? '<span class="tag prog">IN PROGRAMMA</span>' : ""}
           <div class="art">${scenaSvg(t)}</div>
           <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3>
           <div class="per">${[t.periodo, notti(t), extra].filter(Boolean).join(" · ")}</div></div></a>`;
       };
-      const futuri = ordinati.filter(t => t._futuro && ok(t));
-      const passati = ordinati.filter(t => !t._futuro && ok(t));
       let html = "";
-      if (futuri.length) html += `<div class="sezione">In programma</div><div class="cards">${futuri.map(card).join("")}</div>`;
-      if (passati.length) html += `<div class="sezione">Già fatti</div><div class="cards">${passati.map(card).join("")}</div>`;
+      Object.entries(TIPI).forEach(([chiave, { emoji, nome }]) => {
+        const lista = ordinati.filter(t => t.tipo === chiave && ok(t));
+        if (lista.length) html += `<div class="sezione">${emoji} ${nome}</div><div class="cards">${lista.map(card).join("")}</div>`;
+      });
       elenco.innerHTML = html || '<p class="vuoto">Nessun viaggio trovato.</p>';
     }
     disegnaElenco();
     document.getElementById("cerca").addEventListener("input", disegnaElenco);
-    document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
-      document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === c));
-      filtro = c.dataset.f; disegnaElenco();
+    document.querySelectorAll("#f-tipo .chip").forEach(c => c.addEventListener("click", () => {
+      document.querySelectorAll("#f-tipo .chip").forEach(x => x.classList.toggle("on", x === c));
+      filtroTipo = c.dataset.t; disegnaElenco();
+    }));
+    document.querySelectorAll("#f-area .chip").forEach(c => c.addEventListener("click", () => {
+      document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x === c));
+      filtroArea = c.dataset.a; disegnaElenco();
     }));
 
     // ---- INTERRUTTORE Mappa / Elenco ----
