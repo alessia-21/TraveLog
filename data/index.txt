@@ -1,22 +1,23 @@
-// data/index.txt — un viaggio per riga:   id | tipo | area
-//   tipo: fuga | avventura        area: europa | asia
+// data/index.txt — un viaggio per riga:   id | area        (area: europa | asia)
+//   Il tipo si calcola da solo: fino a 4 giorni = fuga, da 5 = avventura.
+//   Per forzarlo aggiungilo:   lisbona | fuga | europa      oppure      grecia | avventura | europa
 //   (l'ordine delle righe è quello usato dal sito)
 
-giappone | avventura | asia
-tokyo | avventura | asia
-atene | fuga | europa
-madrid | fuga | europa
-belgio-olanda | avventura | europa
-olanda | fuga | europa
-lisbona | fuga | europa
-praga | fuga | europa
-grecia | avventura | europa
-manchester | fuga | europa
-dublino | fuga | europa
-londra | fuga | europa
-londra2023 | fuga | europa
-londra-dicembre | fuga | europa
-berlino | fuga | europa
-parigi | fuga | europa
-monaco | fuga | europa
-edimburgo | fuga | europa
+giappone | asia
+tokyo | asia
+atene | europa
+madrid | europa
+belgio-olanda | europa
+olanda | europa
+lisbona | europa
+praga | europa
+grecia | europa
+manchester | europa
+dublino | europa
+londra | europa
+londra2023 | europa
+londra-dicembre | europa
+berlino | europa
+parigi | europa
+monaco | europa
+edimburgo | europa
