@@ -59,20 +59,38 @@ const ICONE = { MATTINA: "sun", POMERIGGIO: "cloud-sun", SERA: "moon", ALBA: "su
 
 const plain = html => String(html).replace(/<[^>]*>/g, "");
 
+// stile del pulsante "indietro" in cima alla pagina di un viaggio
+function stileCrumb() {
+  if (document.getElementById("stile-crumb")) return;
+  const s = document.createElement("style");
+  s.id = "stile-crumb";
+  s.textContent = `
+    .crumb { display: inline-flex; align-items: center; gap: 8px; margin: 0 2px 12px; padding: 9px 17px; border-radius: 99px;
+      background: #fff; color: var(--ink, #2d2150); text-decoration: none; font: 800 14px 'Nunito', sans-serif;
+      box-shadow: 0 3px 10px rgba(110,80,180,.12); transition: transform .15s; }
+    .crumb:hover { transform: translateX(-3px); }
+    .crumb i { font-size: 12px; color: var(--lilla, #7a5fc4); }`;
+  document.head.appendChild(s);
+}
+
 // modo: "agenda" (itinerario) oppure "scopri" (luoghi di interesse)
 export async function montaViaggio(modo) {
   const hero = document.getElementById("hero");
   const vista = document.getElementById("vista");
+  const agenda = modo === "agenda";
+  stileCrumb();
+  // pulsante "indietro" sempre visibile: torna alla lista dei viaggi
+  const crumb = `<a class="crumb" href="${agenda ? "itinerari.html" : "scopri.html"}"><i class="fas fa-arrow-left"></i> ${agenda ? "Tutti gli itinerari" : "Tutti i luoghi"}</a>`;
   let trip;
   try {
     trip = await loadTrip(tripFromUrl());
   } catch (e) {
+    hero.innerHTML = crumb;
     vista.innerHTML = `<p class="vuoto">${esc(e.message)}</p>`;
     return;
   }
-  const agenda = modo === "agenda";
   document.title = (agenda ? "" : "Scopri – ") + trip.nome;
-  hero.innerHTML = heroHtml(trip, agenda ? "il mio itinerario" : "da non perdere");
+  hero.innerHTML = crumb + heroHtml(trip, agenda ? "il mio itinerario" : "da non perdere");
 
   // giorni mostrati (in "scopri" solo quelli con luoghi)
   const chiavi = Object.keys(trip.giorni).filter(k => agenda || trip.giorni[k].luoghi.length);
