@@ -203,10 +203,11 @@ function montaMenu() {
   const s = document.createElement("style");
   s.textContent = `
     .bar { display: none; }
-    @media (max-width: 760px) {
+    /* telefono + iPad (schermi touch fino a 1100px); il computer con il mouse tiene il menu in alto */
+    @media (max-width: 760px), (hover: none) and (pointer: coarse) and (max-width: 1100px) {
       body.v2 .navbar.transparent { display: none; }
       body.v2 .v2-main { padding-top: 18px; padding-bottom: 110px; }
-      .bar { display: flex; position: fixed; z-index: 1000; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
+      .bar { display: flex; position: fixed; z-index: 1000; left: 12px; right: 12px; max-width: 560px; margin: 0 auto; bottom: calc(10px + env(safe-area-inset-bottom));
         padding: 22px 6px 8px; border-radius: 26px; background: rgba(255,255,255,.97); box-shadow: 0 12px 32px rgba(110,80,180,.28); }
       .bar-rotta { position: absolute; left: 22px; right: 22px; top: 12px; border-top: 2px dashed #d8ccf3; }
       .bar-rotta::before, .bar-rotta::after { content: ""; position: absolute; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: #d8ccf3; }
