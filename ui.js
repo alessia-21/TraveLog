@@ -192,7 +192,7 @@ function montaMenu() {
     ? [["index.html", "house", "Home", "index.html"],
        ["itinerari.html", "map-location-dot", "Viaggi", "itinerari.html"],
        ["viaggio.html" + q, "route", "Itinerario", "viaggio.html"],
-       ["scopriViaggio.html" + q, "compass", "Da vedere", "scopriViaggio.html"]]
+       ["scopriViaggio.html" + q, "compass", "Scopri", "scopriViaggio.html"]]
     : [["index.html", "house", "Home", "index.html"],
        ["itinerari.html", "map-location-dot", "Itinerari", "itinerari.html"],
        ["scopri.html", "compass", "Scopri di più", "scopri.html"]];
