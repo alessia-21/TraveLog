@@ -138,9 +138,11 @@
 
     // ---- MAPPA ----
     try {
-      map = L.map('map').setView([20, 0], 2);
+      // il mondo non si ripete ai lati: la mappa si ferma ai bordi, così i segnalini restano sempre visibili
+      const MONDO = [[-85, -180], [85, 180]];
+      map = L.map('map', { minZoom: 2, maxBounds: MONDO, maxBoundsViscosity: 1 }).setView([20, 0], 2);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors', maxZoom: 19
+        attribution: '© OpenStreetMap contributors', maxZoom: 19, noWrap: true, bounds: MONDO
       }).addTo(map);
 
       // un marker per ogni zona: i viaggi vicini tra loro finiscono nello stesso marker
