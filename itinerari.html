@@ -18,18 +18,12 @@
     .trip-card .tag.prog { left: auto; right: 12px; background: var(--lilla); color: #fff; font-size: 16px; }
     /* secondo filtro (area): chip più piccoli */
     .chip-s { font-size: 12.5px; padding: 8px 14px; }
+    /* menu in alto: spazio riservato subito, così la pagina non salta quando si carica ui.js */
+    body.v2 .v2-main { padding-top: calc(104px + env(safe-area-inset-top)); }
   </style>
 </head>
 
 <body class="v2">
-  <nav class="navbar transparent">
-    <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
-      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
-    </ul>
-  </nav>
-
   <div class="v2-main">
     <div class="mp-head">
       <h1>Scegli il tuo viaggio</h1>
@@ -88,7 +82,18 @@
 
     // ---- ELENCO ----
     const elenco = document.getElementById("elenco");
-    let filtroTipo = "tutti", filtroArea = "tutti";
+    // ---- ricorda filtri e posizione (per quando torni da un viaggio) ----
+    const CH = "itinerariStato";
+    let st = {};
+    try { st = JSON.parse(sessionStorage.getItem(CH) || "{}"); } catch (e) {}
+    const cercaEl = document.getElementById("cerca");
+    let filtroTipo = TIPI[st.tipo] ? st.tipo : "tutti", filtroArea = AREE[st.area] ? st.area : "tutti";
+    cercaEl.value = st.q || "";
+    document.querySelectorAll("#f-tipo .chip").forEach(x => x.classList.toggle("on", x.dataset.t === filtroTipo));
+    document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x.dataset.a === filtroArea));
+    function salva(torna) {
+      try { sessionStorage.setItem(CH, JSON.stringify({ tipo: filtroTipo, area: filtroArea, q: cercaEl.value, scroll: window.scrollY, torna: !!torna, quando: Date.now() })); } catch (e) {}
+    }
     function disegnaElenco() {
       const q = document.getElementById("cerca").value.trim().toLowerCase();
       const ok = t =>
@@ -113,14 +118,15 @@
       elenco.innerHTML = html || '<p class="vuoto">Nessun viaggio trovato.</p>';
     }
     disegnaElenco();
-    document.getElementById("cerca").addEventListener("input", disegnaElenco);
+    cercaEl.addEventListener("input", () => { disegnaElenco(); salva(false); });
+    elenco.addEventListener("click", e => { if (e.target.closest("a.trip-card")) salva(true); });
     document.querySelectorAll("#f-tipo .chip").forEach(c => c.addEventListener("click", () => {
       document.querySelectorAll("#f-tipo .chip").forEach(x => x.classList.toggle("on", x === c));
-      filtroTipo = c.dataset.t; disegnaElenco();
+      filtroTipo = c.dataset.t; disegnaElenco(); salva(false);
     }));
     document.querySelectorAll("#f-area .chip").forEach(c => c.addEventListener("click", () => {
       document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x === c));
-      filtroArea = c.dataset.a; disegnaElenco();
+      filtroArea = c.dataset.a; disegnaElenco(); salva(false);
     }));
 
     // ---- INTERRUTTORE Mappa / Elenco ----
@@ -173,8 +179,12 @@
     let ultima = "mappa";
     try { ultima = localStorage.getItem("vistaItinerari") || "mappa"; } catch (e) {}
     vai(ultima === "elenco" ? "elenco" : "mappa");
+
+    // se arrivi da un viaggio (indietro o "Tutti gli itinerari"), torni dov'eri nell'elenco
+    if (st.torna && st.scroll && Date.now() - (st.quando || 0) < 6e5 && !vElenco.hidden) {
+      requestAnimationFrame(() => { window.scrollTo(0, st.scroll); salva(false); });
+    }
   </script>
-<script>(function(){var p=location.pathname.split("/").pop()||"index.html";var m={"viaggio.html":"itinerari.html","scopriViaggio.html":"scopri.html"};p=m[p]||p;document.querySelectorAll(".navbar a").forEach(function(a){if(a.getAttribute("href")===p)a.classList.add("on");});})();</script>
 </body>
 
 </html>

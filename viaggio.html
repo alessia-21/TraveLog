@@ -3,27 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Il Mio Itinerario</title>
+  <title>TraveLog – Itinerario</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="viaggio.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* menu in alto: spazio riservato subito, così la pagina non salta quando si carica ui.js */
+    body.v2 .v2-main { padding-top: calc(104px + env(safe-area-inset-top)); }
+  </style>
 </head>
 <body class="v2">
-  <nav class="navbar transparent">
-    <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
-      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
-    </ul>
-  </nav>
-
   <div class="v2-main">
     <div id="hero"></div>
     <div id="vista"></div>
   </div>
 
   <script type="module" src="functions.js"></script>
-<script>(function(){var p=location.pathname.split("/").pop()||"index.html";var m={"viaggio.html":"itinerari.html","scopriViaggio.html":"scopri.html"};p=m[p]||p;document.querySelectorAll(".navbar a").forEach(function(a){if(a.getAttribute("href")===p)a.classList.add("on");});})();</script>
 </body>
 </html>

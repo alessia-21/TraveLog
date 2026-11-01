@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Scopri di più</title>
+  <title>TraveLog – Scopri di più</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="viaggio.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* menu in alto: spazio riservato subito, così la pagina non salta quando si carica ui.js */
+    body.v2 .v2-main { padding-top: calc(104px + env(safe-area-inset-top)); }
+  </style>
 </head>
 <body class="v2">
-  <nav class="navbar transparent">
-    <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="itinerari.html"><i class="fas fa-map-marked-alt"></i> Itinerari</a></li>
-      <li><a href="scopri.html"><i class="fas fa-info-circle"></i> Scopri di più</a></li>
-    </ul>
-  </nav>
-
   <div class="v2-main">
     <div class="mp-head"><h1>Scopri di più</h1></div>
     <div class="filtri"><input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off"></div>
@@ -33,8 +29,18 @@
     const trips = (await loadAllTrips()).filter(t => Object.values(t.giorni).some(g => g.luoghi.length));
     trips.sort((a, b) => ((b.periodo.match(/\d{4}/) || ["0"])[0]) - ((a.periodo.match(/\d{4}/) || ["0"])[0]));
 
+    // ---- ricorda la ricerca e la posizione (per quando torni da un viaggio) ----
+    const CH = "scopriStato";
+    let st = {};
+    try { st = JSON.parse(sessionStorage.getItem(CH) || "{}"); } catch (e) {}
+    const cercaEl = document.getElementById("cerca");
+    cercaEl.value = st.q || "";
+    function salva(torna) {
+      try { sessionStorage.setItem(CH, JSON.stringify({ q: cercaEl.value, scroll: window.scrollY, torna: !!torna, quando: Date.now() })); } catch (e) {}
+    }
+
     function disegna() {
-      const q = document.getElementById("cerca").value.trim().toLowerCase();
+      const q = cercaEl.value.trim().toLowerCase();
       lista.innerHTML = trips.filter(t => !q || (t.nome + " " + t.periodo).toLowerCase().includes(q)).map(t => {
         const { titolo, anno } = dividiNome(t.nome);
         const n = Object.values(t.giorni).reduce((s, g) => s + g.luoghi.length, 0);
@@ -44,8 +50,13 @@
       }).join("") || '<p class="vuoto">Nessun itinerario disponibile.</p>';
     }
     disegna();
-    document.getElementById("cerca").addEventListener("input", disegna);
+    cercaEl.addEventListener("input", () => { disegna(); salva(false); });
+    lista.addEventListener("click", e => { if (e.target.closest("a.trip-card")) salva(true); });
+
+    // se arrivi da un viaggio (indietro o "Tutti i luoghi"), torni dov'eri
+    if (st.torna && st.scroll && Date.now() - (st.quando || 0) < 6e5) {
+      requestAnimationFrame(() => { window.scrollTo(0, st.scroll); salva(false); });
+    }
   </script>
-<script>(function(){var p=location.pathname.split("/").pop()||"index.html";var m={"viaggio.html":"itinerari.html","scopriViaggio.html":"scopri.html"};p=m[p]||p;document.querySelectorAll(".navbar a").forEach(function(a){if(a.getAttribute("href")===p)a.classList.add("on");});})();</script>
 </body>
 </html>
