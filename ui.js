@@ -59,7 +59,7 @@ const ICONE = { MATTINA: "sun", POMERIGGIO: "cloud-sun", SERA: "moon", ALBA: "su
 
 const plain = html => String(html).replace(/<[^>]*>/g, "");
 
-// stile del pulsante "indietro" in cima alla pagina di un viaggio
+// stile del pulsante "indietro" e dei giorni a tendina
 function stileCrumb() {
   if (document.getElementById("stile-crumb")) return;
   const s = document.createElement("style");
@@ -69,7 +69,22 @@ function stileCrumb() {
       background: #fff; color: var(--ink, #2d2150); text-decoration: none; font: 800 14px 'Nunito', sans-serif;
       box-shadow: 0 3px 10px rgba(110,80,180,.12); transition: transform .15s; }
     .crumb:hover { transform: translateX(-3px); }
-    .crumb i { font-size: 12px; color: var(--lilla, #7a5fc4); }`;
+    .crumb i { font-size: 12px; color: var(--lilla, #7a5fc4); }
+
+    /* giorni a tendina: il dettaglio si apre sotto il biglietto, senza cambiare pagina */
+    .tl-item { scroll-margin-top: 96px; }
+    .tl-item a.tl-head { cursor: pointer; }
+    .tl-chev { flex: none; align-self: center; margin: 0 14px 0 0; font-size: 13px; color: var(--lilla, #7a5fc4); transition: transform .3s; }
+    .tl-item.open .tl-chev { transform: rotate(180deg); }
+    .tl-item.open a.tl-head { border-radius: 20px 20px 0 0; transform: none; }
+    .tl-item.open a.tl-head::after { display: none; }
+    .tl-item.open .tl-date { border-radius: 20px 0 0 0; }
+    .tl-det { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+    .tl-item.open .tl-det { grid-template-rows: 1fr; }
+    .tl-det-in { min-height: 0; overflow: hidden; background: #fff; border-radius: 0 0 20px 20px; visibility: hidden; transition: visibility 0s linear .35s; }
+    .tl-item.open .tl-det-in { visibility: visible; transition-delay: 0s; box-shadow: 0 10px 24px rgba(110,80,180,.10); }
+    .tl-det-in .pass-body { border-top: 2px dashed color-mix(in srgb, var(--c) 45%, #fff); padding: 14px 22px 22px; }
+    @media (prefers-reduced-motion: reduce) { .tl-det, .tl-chev, .tl-det-in { transition: none; } }`;
   document.head.appendChild(s);
 }
 
@@ -95,6 +110,26 @@ export async function montaViaggio(modo) {
   // giorni mostrati (in "scopri" solo quelli con luoghi)
   const chiavi = Object.keys(trip.giorni).filter(k => agenda || trip.giorni[k].luoghi.length);
 
+  // contenuto del giorno (quello che si apre nella tendina)
+  function corpoGiorno(k) {
+    const g = trip.giorni[k];
+    let corpo = "";
+    if (agenda) {
+      gruppiGiorno(g).forEach(gr => {
+        const ic = ICONE[gr.etichetta] ? `<i class="fas fa-${ICONE[gr.etichetta]}"></i>` : "";
+        corpo += `<div class="grp"><div class="grp-h">${ic}${esc(gr.etichetta)}</div>` + gr.voci.map(a => {
+          const t = /^\d/.test(a.ora || "") ? `<span class="t">${esc(a.ora)}</span>` : `<span class="t vuoto">•</span>`;
+          return `<div class="line">${t}<span>${esc(a.attivita)}${a.nota ? `<span class="nota">${esc(a.nota)}</span>` : ""}</span></div>`;
+        }).join("") + `</div>`;
+      });
+      g.noteFinali.forEach(n => { corpo += `<div class="note">${esc(n)}</div>`; });
+    } else {
+      corpo = `<ul class="luoghi">` + g.luoghi.map(l =>
+        `<li><span class="ic">${l.icona ? `<i class="fas fa-${esc(l.icona)}"></i>` : ""}</span><div><strong>${esc(l.titolo)}</strong><span>${esc(l.descrizione)}</span></div></li>`).join("") + `</ul>`;
+    }
+    return corpo;
+  }
+
   function elenco() {
     if (!chiavi.length) {
       vista.innerHTML = `<p class="vuoto">Nessuna descrizione ancora per questo viaggio.</p>`;
@@ -112,10 +147,14 @@ export async function montaViaggio(modo) {
         ? g.attivita.filter(a => /^\d/.test(a.ora || "") ? !/pranzo|cena|colazione/i.test(a.attivita) : true).slice(0, 2).map(a => a.attivita).join(" · ")
         : g.luoghi.slice(0, 3).map(l => l.titolo).join(" · ");
       const d = infoData(trip, g);
-      html += `<li class="tl-item" style="--c:${esc(g.colore)}"><a href="#${k}">
-        ${dataTl(trip, g, k)}
-        <div class="tl-body">${d && d.sett ? `<div class="sett">${esc(d.sett)}</div>` : ""}<h3>${esc(g.titolo)}</h3><p>${esc(anteprima)}</p></div><span class="tl-bars"></span>
-      </a></li>`;
+      html += `<li class="tl-item" id="${k}" data-k="${k}" style="--c:${esc(g.colore)}">
+        <a class="tl-head" href="#${k}" role="button" aria-expanded="false" aria-controls="det-${k}">
+          ${dataTl(trip, g, k)}
+          <div class="tl-body">${d && d.sett ? `<div class="sett">${esc(d.sett)}</div>` : ""}<h3>${esc(g.titolo)}</h3><p>${esc(anteprima)}</p></div>
+          <i class="fas fa-chevron-down tl-chev" aria-hidden="true"></i><span class="tl-bars"></span>
+        </a>
+        <div class="tl-det" id="det-${k}" role="region"><div class="tl-det-in"><div class="pass-body">${corpoGiorno(k)}</div></div></div>
+      </li>`;
     });
     html += `</ol>`;
     if (agenda && trip.foto.length) {
@@ -124,62 +163,54 @@ export async function montaViaggio(modo) {
     vista.innerHTML = html;
   }
 
-  function giorno(k) {
-    const g = trip.giorni[k];
-    const i = chiavi.indexOf(k);
-    const d = infoData(trip, g);
-    let corpo = "";
-    if (agenda) {
-      gruppiGiorno(g).forEach(gr => {
-        const ic = ICONE[gr.etichetta] ? `<i class="fas fa-${ICONE[gr.etichetta]}"></i>` : "";
-        corpo += `<div class="grp"><div class="grp-h">${ic}${esc(gr.etichetta)}</div>` + gr.voci.map(a => {
-          const t = /^\d/.test(a.ora || "") ? `<span class="t">${esc(a.ora)}</span>` : `<span class="t vuoto">•</span>`;
-          return `<div class="line">${t}<span>${esc(a.attivita)}${a.nota ? `<span class="nota">${esc(a.nota)}</span>` : ""}</span></div>`;
-        }).join("") + `</div>`;
-      });
-      g.noteFinali.forEach(n => { corpo += `<div class="note">${esc(n)}</div>`; });
-    } else {
-      corpo = `<ul class="luoghi">` + g.luoghi.map(l =>
-        `<li><span class="ic">${l.icona ? `<i class="fas fa-${esc(l.icona)}"></i>` : ""}</span><div><strong>${esc(l.titolo)}</strong><span>${esc(l.descrizione)}</span></div></li>`).join("") + `</ul>`;
-    }
-    const prev = chiavi[i - 1], next = chiavi[i + 1];
-    const etich = (agenda ? "GIORNO " : "DA VEDERE · GIORNO ") + String(k.replace(/\D/g, "")).padStart(2, "0") + (d && d.sett ? " · " + d.sett.toUpperCase() : "");
-    vista.innerHTML = `
-      <div class="day-top">
-        <a class="back" href="#" id="back-btn">← Tutti i giorni</a>
-        <span class="pn">${prev ? `<a href="#${prev}" aria-label="Giorno precedente">‹</a>` : ""}${next ? `<a href="#${next}" aria-label="Giorno successivo">›</a>` : ""}</span>
-      </div>
-      <div class="pass" style="--c:${esc(g.colore)}">
-        <div class="pass-head">
-          <div><small>${esc(etich)}</small><h3>${esc(g.titolo)}</h3></div>
-          ${d ? `<div class="pass-date"><b>${d.giorno}</b><small>${d.mese.slice(0, 3)}</small></div>` : ""}
-        </div>
-        <div class="pass-fields">
-          <div><small>DATA</small><b>${d ? d.giorno + " " + d.mese.slice(0, 3) : "—"}</b></div>
-          <div><small>TAPPA</small><b>${esc(g.citta ? g.citta.nome : (trip.nome.split(" ")[0]))}</b></div>
-          <div><small>${agenda ? "ATTIVITÀ" : "LUOGHI"}</small><b>${agenda ? g.attivita.length : g.luoghi.length}</b></div>
-          <i class="fas fa-plane"></i>
-        </div>
-        <div class="pass-tear"></div>
-        <div class="pass-body">${corpo}</div>
-        <div class="pass-foot"><span class="hand">Buon viaggio!</span><span class="bars"></span></div>
-      </div>`;
-    document.getElementById("back-btn").addEventListener("click", e => { e.preventDefault(); location.hash = ""; });
+  // apre/chiude un giorno (uno alla volta, come una tendina)
+  function imposta(li, on) {
+    li.classList.toggle("open", on);
+    li.querySelector("a.tl-head").setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  function apri(k) {
+    const li = vista.querySelector(`.tl-item[data-k="${k}"]`);
+    if (!li) return;
+    const aprire = !li.classList.contains("open");
+    vista.querySelectorAll(".tl-item.open").forEach(x => imposta(x, false));
+    if (aprire) imposta(li, true);
+    // l'indirizzo ricorda il giorno aperto (si può condividere) senza riempire la cronologia
+    try { history.replaceState(null, "", aprire ? "#" + k : location.pathname + location.search); } catch (e) {}
+    // a fine animazione, se il giorno non è tutto in vista, porta in alto il suo biglietto
+    if (aprire) setTimeout(() => {
+      const r = li.getBoundingClientRect();
+      if (r.top < 90 || r.bottom > window.innerHeight) li.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 380);
   }
 
-  function mostra() {
+  elenco();
+  vista.addEventListener("click", e => {
+    const h = e.target.closest("a.tl-head");
+    if (!h) return;
+    e.preventDefault();
+    apri(h.parentElement.dataset.k);
+  });
+  vista.addEventListener("keydown", e => {
+    if (e.key !== " ") return;
+    const h = e.target.closest && e.target.closest("a.tl-head");
+    if (!h) return;
+    e.preventDefault();
+    apri(h.parentElement.dataset.k);
+  });
+  // indirizzo con #giornoN: apre direttamente quel giorno
+  const apriDaIndirizzo = () => {
     const k = location.hash.slice(1);
-    if (k && chiavi.includes(k)) giorno(k); else elenco();
-    window.scrollTo({ top: hero.offsetHeight > 0 && k ? 0 : window.scrollY });
-  }
-  window.addEventListener("hashchange", mostra);
-  mostra();
+    const li = chiavi.includes(k) && vista.querySelector(`.tl-item[data-k="${k}"]`);
+    if (li && !li.classList.contains("open")) apri(k);
+  };
+  window.addEventListener("hashchange", apriDaIndirizzo);
+  apriDaIndirizzo();
 }
 
 // ==========================================================
 // MENU IN ALTO (tutti i dispositivi): voci + rotta tratteggiata con aeroplanino
 // Si attiva da solo su ogni pagina che importa ui.js.
-// Dentro un viaggio le voci diventano: Home · Viaggi · Itinerario · Da vedere
+// Dentro un viaggio le voci diventano: Home · Viaggi · Itinerario · Scopri
 // ==========================================================
 function montaMenu() {
   if (document.getElementById("bar-viaggio")) return;
