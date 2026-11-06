@@ -1,5 +1,5 @@
 // ui.js — banner, elenco giorni e dettaglio giorno (usato da functions.js e functionsScopri.js)
-import { loadTrip, tripFromUrl, infoData, gruppiGiorno } from "./parser.js";
+import { loadTrip, tripFromUrl, infoData, gruppiGiorno, AREE, STAGIONI } from "./parser.js";
 import { SCENE } from "./scene.js";
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -12,6 +12,23 @@ export function dividiNome(nome) {
   const m = nome.match(/^(.*?)\s+(\d{4}(?:\/\d{2})?)$/);
   return m ? { titolo: m[1], anno: m[2], extra } : { titolo: nome, anno: "", extra };
 }
+
+// etichette sulle card dei viaggi: area (in alto a sinistra), stagione (pallino in alto a destra), "in programma"
+export function etichetteCard(t) {
+  const a = AREE[t.area], s = STAGIONI[t.stagione];
+  return (a ? `<span class="tag">${a.emoji} ${a.nome}</span>` : "") +
+    (s ? `<span class="stag" title="${s.nome}" aria-label="${s.nome}">${s.emoji}</span>` : "") +
+    (t._futuro ? `<span class="tag prog">IN PROGRAMMA</span>` : "");
+}
+(function stileCard() {
+  const s = document.createElement("style");
+  s.textContent = `
+    .trip-card .tag { text-transform: none; font-size: 18px; padding: 4px 11px; }
+    .trip-card .tag.prog { left: auto; right: 12px; top: 56px; background: var(--lilla, #7a5fc4); color: #fff; font-size: 16px; }
+    .trip-card .stag { position: absolute; top: 10px; right: 12px; z-index: 3; width: 36px; height: 36px; display: grid; place-items: center;
+      border-radius: 50%; background: #fff; font-size: 19px; line-height: 1; box-shadow: 0 3px 10px rgba(110,80,180,.18); }`;
+  document.head.appendChild(s);
+})();
 
 export function scenaSvg(trip) {
   return SCENE[trip.scena] || SCENE.default;

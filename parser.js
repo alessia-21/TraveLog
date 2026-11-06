@@ -28,6 +28,12 @@ export const AREE = {
   europa: { emoji: "🇪🇺", nome: "Europa" },
   asia:   { emoji: "🌸", nome: "Asia" }
 };
+export const STAGIONI = {
+  primavera: { emoji: "🌷", nome: "Primavera" },
+  estate:    { emoji: "☀️", nome: "Estate" },
+  autunno:   { emoji: "🍂", nome: "Autunno" },
+  inverno:   { emoji: "❄️", nome: "Inverno" }
+};
 
 // da quanti giorni in poi un viaggio è "avventura" (sotto = "fuga")
 export const SOGLIA_AVVENTURA = 5;
@@ -125,6 +131,20 @@ export function infoData(trip, giorno) {
   return { mese: MESI[m - 1].toUpperCase(), giorno: g, sett };
 }
 
+// stagione dal mese di partenza: dic–feb inverno, mar–mag primavera, giu–ago estate, set–nov autunno
+// (si legge dalla data del primo giorno; se i giorni non hanno data, dal mese scritto nel periodo)
+export function stagioneViaggio(trip) {
+  const g = Object.values(trip.giorni).find(x => x.data);
+  let m = g ? g.data.m : 0;
+  if (!m) {
+    const testo = (trip.periodo || "").toLowerCase();
+    let pos = 1e9;
+    MESI.forEach((nome, i) => { const p = testo.indexOf(nome); if (p >= 0 && p < pos) { pos = p; m = i + 1; } });
+  }
+  if (!m) return "";
+  return m === 12 || m <= 2 ? "inverno" : m <= 5 ? "primavera" : m <= 8 ? "estate" : "autunno";
+}
+
 // raggruppa le attività in MATTINA / POMERIGGIO / SERA in base all'orario
 export function gruppiGiorno(giorno) {
   const gruppi = [];
@@ -156,6 +176,7 @@ export async function loadTrip(id) {
 // data/index.txt: un viaggio per riga, nel formato   id | area      es.  madrid | europa
 //   (l'ordine è quello mostrato). Il tipo si calcola dai giorni (SOGLIA_AVVENTURA);
 //   per forzarlo aggiungilo:   lisbona | fuga | europa
+//   La stagione si calcola dalle date; per forzarla aggiungila:   giappone | asia | primavera
 //   Se il file del viaggio ha già @tipo / @area, valgono quelli di index.txt solo se indicati qui.
 export async function loadAllTrips() {
   const res = await fetch("data/index.txt", { cache: "no-cache" });
@@ -165,7 +186,7 @@ export async function loadAllTrips() {
     .map(r => {
       // dopo l'id, l'ordine non conta: "europa" è l'area, "fuga"/"avventura" il tipo (facoltativo)
       const [id, ...resto] = r.split("|").map(s => s.trim().toLowerCase());
-      return { id, tipo: resto.find(x => TIPI[x]) || "", area: resto.find(x => AREE[x]) || "" };
+      return { id, tipo: resto.find(x => TIPI[x]) || "", area: resto.find(x => AREE[x]) || "", stagione: resto.find(x => STAGIONI[x]) || "" };
     });
   const risultati = await Promise.allSettled(voci.map(v =>
     loadTrip(v.id).then(t => {
@@ -174,6 +195,7 @@ export async function loadAllTrips() {
       if (TIPI[v.tipo]) t.tipo = v.tipo;
       else t.tipo = t.tipo || (Object.keys(t.giorni).length >= SOGLIA_AVVENTURA ? "avventura" : "fuga");
       if (AREE[v.area]) t.area = v.area;
+      t.stagione = v.stagione || stagioneViaggio(t);
       return t;
     })));
   return risultati.filter(r => r.status === "fulfilled").map(r => r.value);

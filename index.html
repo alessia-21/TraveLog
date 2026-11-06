@@ -79,7 +79,7 @@
   <script type="module">
     import { loadAllTrips } from "./parser.js";
     import { SCENE } from "./scene.js";
-    import { scenaSvg, dividiNome, notti, ROTTA } from "./ui.js";
+    import { scenaSvg, dividiNome, notti, ROTTA, etichetteCard } from "./ui.js";
     document.getElementById("rotta").innerHTML = ROTTA;
 
     const trips = await loadAllTrips();
@@ -126,7 +126,7 @@
     const passati = [...fatti].sort((a, b) => b._inizio - a._inizio).slice(0, 8);
     document.getElementById("strip").innerHTML = passati.map(t => {
       const { titolo, anno } = dividiNome(t.nome);
-      return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}"><div class="art">${scenaSvg(t)}</div>
+      return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">${etichetteCard(t)}<div class="art">${scenaSvg(t)}</div>
         <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3><div class="per">${[t.periodo, notti(t)].filter(Boolean).join(" · ")}</div></div></a>`;
     }).join("");
   </script>

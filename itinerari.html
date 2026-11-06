@@ -12,10 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    /* etichetta area sulla card (in alto a sinistra) */
-    .trip-card .tag { text-transform: none; font-size: 18px; padding: 4px 11px; }
-    /* badge "in programma" in alto a destra */
-    .trip-card .tag.prog { left: auto; right: 12px; background: var(--lilla); color: #fff; font-size: 16px; }
     /* secondo filtro (area): chip più piccoli */
     .chip-s { font-size: 12.5px; padding: 8px 14px; }
     /* menu in alto: spazio riservato subito, così la pagina non salta quando si carica ui.js */
@@ -51,6 +47,14 @@
         <button class="chip chip-s" data-a="europa" type="button">🇪🇺 Europa</button>
         <button class="chip chip-s" data-a="asia" type="button">🌸 Asia</button>
       </div>
+      <!-- filtro per stagione (si calcola dalla data di partenza) -->
+      <div class="filtri" id="f-stagione">
+        <button class="chip chip-s on" data-s="tutte" type="button">Tutte le stagioni</button>
+        <button class="chip chip-s" data-s="primavera" type="button">🌷 Primavera</button>
+        <button class="chip chip-s" data-s="estate" type="button">☀️ Estate</button>
+        <button class="chip chip-s" data-s="autunno" type="button">🍂 Autunno</button>
+        <button class="chip chip-s" data-s="inverno" type="button">❄️ Inverno</button>
+      </div>
       <div id="elenco"></div>
     </div>
   </div>
@@ -58,8 +62,8 @@
   <!-- Script di Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script type="module">
-    import { loadAllTrips, TIPI, AREE } from "./parser.js";
-    import { scenaSvg, dividiNome, notti } from "./ui.js";
+    import { loadAllTrips, TIPI, AREE, STAGIONI } from "./parser.js";
+    import { scenaSvg, dividiNome, notti, etichetteCard } from "./ui.js";
 
     const trips = await loadAllTrips();
 
@@ -88,24 +92,25 @@
     try { st = JSON.parse(sessionStorage.getItem(CH) || "{}"); } catch (e) {}
     const cercaEl = document.getElementById("cerca");
     let filtroTipo = TIPI[st.tipo] ? st.tipo : "tutti", filtroArea = AREE[st.area] ? st.area : "tutti";
+    let filtroStagione = STAGIONI[st.stagione] ? st.stagione : "tutte";
     cercaEl.value = st.q || "";
     document.querySelectorAll("#f-tipo .chip").forEach(x => x.classList.toggle("on", x.dataset.t === filtroTipo));
     document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x.dataset.a === filtroArea));
+    document.querySelectorAll("#f-stagione .chip").forEach(x => x.classList.toggle("on", x.dataset.s === filtroStagione));
     function salva(torna) {
-      try { sessionStorage.setItem(CH, JSON.stringify({ tipo: filtroTipo, area: filtroArea, q: cercaEl.value, scroll: window.scrollY, torna: !!torna, quando: Date.now() })); } catch (e) {}
+      try { sessionStorage.setItem(CH, JSON.stringify({ tipo: filtroTipo, area: filtroArea, stagione: filtroStagione, q: cercaEl.value, scroll: window.scrollY, torna: !!torna, quando: Date.now() })); } catch (e) {}
     }
     function disegnaElenco() {
       const q = document.getElementById("cerca").value.trim().toLowerCase();
       const ok = t =>
         (filtroTipo === "tutti" || t.tipo === filtroTipo) &&
         (filtroArea === "tutti" || t.area === filtroArea) &&
+        (filtroStagione === "tutte" || t.stagione === filtroStagione) &&
         (!q || (t.nome + " " + t.periodo).toLowerCase().includes(q));
       const card = t => {
         const { titolo, anno, extra } = dividiNome(t.nome);
-        const a = AREE[t.area];
         return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">
-          ${a ? `<span class="tag">${a.emoji} ${a.nome}</span>` : ""}
-          ${t._futuro ? '<span class="tag prog">IN PROGRAMMA</span>' : ""}
+          ${etichetteCard(t)}
           <div class="art">${scenaSvg(t)}</div>
           <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3>
           <div class="per">${[t.periodo, notti(t), extra].filter(Boolean).join(" · ")}</div></div></a>`;
@@ -127,6 +132,10 @@
     document.querySelectorAll("#f-area .chip").forEach(c => c.addEventListener("click", () => {
       document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x === c));
       filtroArea = c.dataset.a; disegnaElenco(); salva(false);
+    }));
+    document.querySelectorAll("#f-stagione .chip").forEach(c => c.addEventListener("click", () => {
+      document.querySelectorAll("#f-stagione .chip").forEach(x => x.classList.toggle("on", x === c));
+      filtroStagione = c.dataset.s; disegnaElenco(); salva(false);
     }));
 
     // ---- INTERRUTTORE Mappa / Elenco ----
