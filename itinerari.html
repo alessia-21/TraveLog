@@ -62,27 +62,15 @@
   <!-- Script di Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script type="module">
-    import { loadAllTrips, TIPI, AREE, STAGIONI } from "./parser.js";
-    import { scenaSvg, dividiNome, notti, etichetteCard } from "./ui.js";
+    import { loadAllTrips, raggruppaLuoghi, TIPI, AREE, STAGIONI } from "./parser.js";
+    import { cardLuogo, urlLuogo } from "./ui.js";
 
     const trips = await loadAllTrips();
 
-    // ---- data di inizio (serve per ordinare e per il badge "In programma") ----
-    function inizio(t) {
-      const anno = (t.periodo.match(/\d{4}/) || [])[0];
-      const g = Object.values(t.giorni).find(x => x.data);
-      const oggi = new Date();
-      if (g) {
-        if (anno) return new Date(+anno, g.data.m - 1, g.data.g);
-        let d = new Date(oggi.getFullYear(), g.data.m - 1, g.data.g);   // senza anno: prossima occorrenza
-        if (d < oggi) d = new Date(oggi.getFullYear() + 1, g.data.m - 1, g.data.g);
-        return d;
-      }
-      return anno ? new Date(+anno, 0, 1) : oggi;
-    }
+    // ---- "in programma" e luoghi (la data di partenza la calcola parser.js) ----
     const oggi = new Date();
-    trips.forEach(t => { t._inizio = inizio(t); t._futuro = t._inizio > oggi; });
-    const ordinati = [...trips].sort((a, b) => b._inizio - a._inizio);
+    trips.forEach(t => { t._futuro = t._inizio > oggi; });
+    const luoghi = raggruppaLuoghi(trips).sort((a, b) => b.ultimo - a.ultimo);
 
     // ---- ELENCO ----
     const elenco = document.getElementById("elenco");
@@ -102,23 +90,17 @@
     }
     function disegnaElenco() {
       const q = document.getElementById("cerca").value.trim().toLowerCase();
-      const ok = t =>
+      // un luogo si vede se almeno uno dei suoi viaggi corrisponde a tutti i filtri
+      const ok = (t, p) =>
         (filtroTipo === "tutti" || t.tipo === filtroTipo) &&
         (filtroArea === "tutti" || t.area === filtroArea) &&
         (filtroStagione === "tutte" || t.stagione === filtroStagione) &&
-        (!q || (t.nome + " " + t.periodo).toLowerCase().includes(q));
-      const card = t => {
-        const { titolo, anno, extra } = dividiNome(t.nome);
-        return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">
-          ${etichetteCard(t)}
-          <div class="art">${scenaSvg(t)}</div>
-          <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3>
-          <div class="per">${[t.periodo, notti(t), extra].filter(Boolean).join(" · ")}</div></div></a>`;
-      };
+        (!q || (p.nome + " " + t.nome).toLowerCase().includes(q));
+      const okLuogo = p => p.trips.some(t => ok(t, p));
       let html = "";
       Object.entries(TIPI).forEach(([chiave, { emoji, nome }]) => {
-        const lista = ordinati.filter(t => t.tipo === chiave && ok(t));
-        if (lista.length) html += `<div class="sezione">${emoji} ${nome}</div><div class="cards">${lista.map(card).join("")}</div>`;
+        const lista = luoghi.filter(p => p.tipo === chiave && okLuogo(p));
+        if (lista.length) html += `<div class="sezione">${emoji} ${nome}</div><div class="cards">${lista.map(p => cardLuogo(p)).join("")}</div>`;
       });
       elenco.innerHTML = html || '<p class="vuoto">Nessun viaggio trovato.</p>';
     }
@@ -160,24 +142,25 @@
         attribution: '© OpenStreetMap contributors', maxZoom: 19, noWrap: true, bounds: MONDO
       }).addTo(map);
 
-      // un marker per ogni zona: i viaggi vicini tra loro finiscono nello stesso marker
+      // un marker per ogni zona: i luoghi vicini tra loro finiscono nello stesso marker
       const gruppi = [];
-      trips.forEach(t => {
+      luoghi.forEach(p => {
+        const t = p.principale;
         let g = gruppi.find(g => Math.abs(g.lat - t.lat) < 0.5 && Math.abs(g.lng - t.lng) < 0.5);
-        if (!g) { g = { lat: t.lat, lng: t.lng, trips: [] }; gruppi.push(g); }
-        g.trips.push(t);
+        if (!g) { g = { lat: t.lat, lng: t.lng, luoghi: [] }; gruppi.push(g); }
+        g.luoghi.push(p);
       });
       gruppi.forEach(g => {
-        const colore = g.trips[0].colore;
+        const colore = g.luoghi[0].principale.colore;
         const pin = L.divIcon({
           className: 'pin pin-v2',
           html: `<i class="fas fa-location-dot" style="color:${colore}"></i>`,
           iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -30]
         });
-        const html = g.trips.map(t =>
-          `<div class="popup-viaggio"><a href="viaggio.html?trip=${t.id}" class="map-btn" style="background:${t.colore}">` +
-          `<i class="fas fa-plane"></i> ${t.nome}</a>` +
-          (t.periodo ? `<br><small>${t.periodo}</small>` : "") + `</div>`).join("");
+        const html = g.luoghi.map(p =>
+          `<div class="popup-viaggio"><a href="${urlLuogo(p)}" class="map-btn" style="background:${p.principale.colore}">` +
+          `<i class="fas fa-plane"></i> ${p.nome}</a>` +
+          (p.trips.length > 1 ? `<br><small>${p.trips.length} viaggi</small>` : "") + `</div>`).join("");
         L.marker([g.lat, g.lng], { icon: pin }).addTo(map).bindPopup(html);
       });
       if (trips.length) map.fitBounds(trips.map(t => [t.lat, t.lng]), { padding: [60, 60], maxZoom: 5 });

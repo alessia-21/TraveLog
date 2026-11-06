@@ -22,12 +22,13 @@
   </div>
 
   <script type="module">
-    import { loadAllTrips } from "./parser.js";
-    import { scenaSvg, dividiNome } from "./ui.js";
+    import { loadAllTrips, raggruppaLuoghi } from "./parser.js";
+    import { cardLuogo } from "./ui.js";
 
     const lista = document.getElementById("lista-itinerari");
+    // solo i viaggi con luoghi da scoprire, raggruppati per luogo (più recenti prima)
     const trips = (await loadAllTrips()).filter(t => Object.values(t.giorni).some(g => g.luoghi.length));
-    trips.sort((a, b) => ((b.periodo.match(/\d{4}/) || ["0"])[0]) - ((a.periodo.match(/\d{4}/) || ["0"])[0]));
+    const luoghi = raggruppaLuoghi(trips).sort((a, b) => b.ultimo - a.ultimo);
 
     // ---- ricorda la ricerca e la posizione (per quando torni da un viaggio) ----
     const CH = "scopriStato";
@@ -41,13 +42,8 @@
 
     function disegna() {
       const q = cercaEl.value.trim().toLowerCase();
-      lista.innerHTML = trips.filter(t => !q || (t.nome + " " + t.periodo).toLowerCase().includes(q)).map(t => {
-        const { titolo, anno } = dividiNome(t.nome);
-        const n = Object.values(t.giorni).reduce((s, g) => s + g.luoghi.length, 0);
-        return `<a class="trip-card" href="scopriViaggio.html?trip=${t.id}" style="--acc:${t.colore}">
-          <div class="art">${scenaSvg(t)}</div>
-          <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3><div class="per">${n} luoghi da scoprire</div></div></a>`;
-      }).join("") || '<p class="vuoto">Nessun itinerario disponibile.</p>';
+      lista.innerHTML = luoghi.filter(p => !q || (p.nome + " " + p.trips.map(t => t.nome).join(" ")).toLowerCase().includes(q))
+        .map(p => cardLuogo(p, { scopri: true })).join("") || '<p class="vuoto">Nessun itinerario disponibile.</p>';
     }
     disegna();
     cercaEl.addEventListener("input", () => { disegna(); salva(false); });

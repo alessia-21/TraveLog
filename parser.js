@@ -164,40 +164,103 @@ export function gruppiGiorno(giorno) {
   return gruppi;
 }
 
+// ---- nomi, date e luoghi ----
+
+// "Grecia 2024 – Santorini" -> { titolo: "Grecia", anno: "2024", extra: "Santorini" }
+export function dividiNome(nome) {
+  let extra = "";
+  const parti = nome.split(" – ");
+  if (parti.length > 1) { nome = parti[0]; extra = parti.slice(1).join(" – "); }
+  const m = nome.match(/^(.*?)\s+(\d{4}(?:\/\d{2})?)$/);
+  return m ? { titolo: m[1], anno: m[2], extra } : { titolo: nome, anno: "", extra };
+}
+
+// data di partenza (serve per ordinare i viaggi e per capire se sono futuri)
+export function inizioViaggio(t) {
+  const anno = (t.periodo.match(/\d{4}/) || [])[0];
+  const g = Object.values(t.giorni).find(x => x.data);
+  const oggi = new Date();
+  if (g) {
+    if (anno) return new Date(+anno, g.data.m - 1, g.data.g);
+    let d = new Date(oggi.getFullYear(), g.data.m - 1, g.data.g);   // senza anno: prossima occorrenza
+    if (d < oggi) d = new Date(oggi.getFullYear() + 1, g.data.m - 1, g.data.g);
+    return d;
+  }
+  return anno ? new Date(+anno, 0, 1) : oggi;
+}
+
+const ORDINALI = ["Primo", "Secondo", "Terzo", "Quarto", "Quinto", "Sesto", "Settimo", "Ottavo", "Nono", "Decimo"];
+export const ordinale = i => (ORDINALI[i] ? ORDINALI[i] + " viaggio" : (i + 1) + "° viaggio");
+
+// raggruppa i viaggi per luogo (campo "luogo:" in index.txt; senza, ogni viaggio è un luogo a sé)
+// -> [{ id, nome, trips (dal più vecchio), principale, area, tipo, ultimo }]
+export function raggruppaLuoghi(trips) {
+  const mappa = new Map();
+  trips.forEach(t => {
+    const k = t.luogo || t.id;
+    if (!mappa.has(k)) mappa.set(k, []);
+    mappa.get(k).push(t);
+  });
+  return [...mappa].map(([id, lista]) => {
+    lista.sort((a, b) => a._inizio - b._inizio);
+    // il viaggio "principale" dà nome, disegno e colore al luogo: quello con lo stesso id del luogo, altrimenti il più recente
+    const principale = lista.find(t => t.id === id) || lista[lista.length - 1];
+    return { id, nome: dividiNome(principale.nome).titolo, trips: lista, principale,
+             area: principale.area, tipo: principale.tipo, ultimo: lista[lista.length - 1]._inizio };
+  });
+}
+
+// ---- data/index.txt ----
+// Un viaggio per riga, nel formato   id | area | ...facoltativi...      es.  madrid | europa
+//   (l'ordine delle righe è quello mostrato). Dopo l'id l'ordine non conta. Facoltativi:
+//   - tipo:      fuga | avventura        (se manca: fino a 4 giorni = fuga, da 5 = avventura, vedi SOGLIA_AVVENTURA)
+//   - stagione:  primavera | estate | autunno | inverno   (se manca: dal mese di partenza)
+//   - luogo:     luogo:londra            (viaggi con lo stesso luogo finiscono nella stessa card; se manca: da soli)
+let _indice = null;
+export function leggiIndice() {
+  if (!_indice) {
+    _indice = fetch("data/index.txt", { cache: "no-cache" })
+      .then(r => { if (!r.ok) throw new Error("data/index.txt non trovato"); return r.text(); })
+      .then(testo => testo.split(/\r?\n/).map(s => s.trim()).filter(s => s && !s.startsWith("//")).map(r => {
+        const [id, ...resto] = r.split("|").map(s => s.trim().toLowerCase());
+        const luogo = (resto.find(x => x.startsWith("luogo:")) || "").slice(6).trim();
+        return { id, tipo: resto.find(x => TIPI[x]) || "", area: resto.find(x => AREE[x]) || "",
+                 stagione: resto.find(x => STAGIONI[x]) || "", luogo: luogo || id };
+      }));
+    _indice.catch(() => { _indice = null; });
+  }
+  return _indice;
+}
+
+// applica a un viaggio i dati di index.txt e quelli calcolati (tipo, area, stagione, luogo, data)
+function applicaVoce(t, v) {
+  v = v || {};
+  if (TIPI[v.tipo]) t.tipo = v.tipo;
+  else t.tipo = t.tipo || (Object.keys(t.giorni).length >= SOGLIA_AVVENTURA ? "avventura" : "fuga");
+  if (AREE[v.area]) t.area = v.area;
+  t.stagione = v.stagione || stagioneViaggio(t);
+  t.luogo = v.luogo || t.id;
+  t._inizio = inizioViaggio(t);
+}
+
 export async function loadTrip(id) {
   // no-cache: il browser controlla sempre se il file è cambiato (niente dati vecchi dopo un aggiornamento)
-  const res = await fetch(`data/${id}.txt`, { cache: "no-cache" });
+  const [res, indice] = await Promise.all([
+    fetch(`data/${id}.txt`, { cache: "no-cache" }),
+    leggiIndice().catch(() => [])
+  ]);
   if (!res.ok) throw new Error(`Viaggio "${id}" non trovato`);
   const trip = parseTrip(await res.text());
   trip.id = id;
+  applicaVoce(trip, indice.find(v => v.id === id));
+  // quanti viaggi ci sono in questo luogo (serve per il pulsante "indietro")
+  trip.fratelli = indice.filter(v => v.luogo === trip.luogo).length;
   return trip;
 }
 
-// data/index.txt: un viaggio per riga, nel formato   id | area      es.  madrid | europa
-//   (l'ordine è quello mostrato). Il tipo si calcola dai giorni (SOGLIA_AVVENTURA);
-//   per forzarlo aggiungilo:   lisbona | fuga | europa
-//   La stagione si calcola dalle date; per forzarla aggiungila:   giappone | asia | primavera
-//   Se il file del viaggio ha già @tipo / @area, valgono quelli di index.txt solo se indicati qui.
 export async function loadAllTrips() {
-  const res = await fetch("data/index.txt", { cache: "no-cache" });
-  const voci = (await res.text())
-    .split(/\r?\n/).map(s => s.trim())
-    .filter(s => s && !s.startsWith("//"))
-    .map(r => {
-      // dopo l'id, l'ordine non conta: "europa" è l'area, "fuga"/"avventura" il tipo (facoltativo)
-      const [id, ...resto] = r.split("|").map(s => s.trim().toLowerCase());
-      return { id, tipo: resto.find(x => TIPI[x]) || "", area: resto.find(x => AREE[x]) || "", stagione: resto.find(x => STAGIONI[x]) || "" };
-    });
-  const risultati = await Promise.allSettled(voci.map(v =>
-    loadTrip(v.id).then(t => {
-      // tipo: se scritto in index.txt (fuga/avventura) vale quello; altrimenti automatico:
-      // fino a 4 giorni = fuga, da 5 giorni in su = avventura
-      if (TIPI[v.tipo]) t.tipo = v.tipo;
-      else t.tipo = t.tipo || (Object.keys(t.giorni).length >= SOGLIA_AVVENTURA ? "avventura" : "fuga");
-      if (AREE[v.area]) t.area = v.area;
-      t.stagione = v.stagione || stagioneViaggio(t);
-      return t;
-    })));
+  const indice = await leggiIndice();
+  const risultati = await Promise.allSettled(indice.map(v => loadTrip(v.id)));
   return risultati.filter(r => r.status === "fulfilled").map(r => r.value);
 }
 

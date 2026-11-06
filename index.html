@@ -37,8 +37,8 @@
     .hd { display: flex; justify-content: space-between; align-items: baseline; margin: 34px 2px 14px; }
     .hd h2 { font-size: 28px; margin: 0; }
     .hd a { font-weight: 800; font-size: 14px; color: #7a5fc4; }
-    .strip { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 16px; scroll-snap-type: x mandatory; }
-    .strip .trip-card { flex: 0 0 260px; scroll-snap-align: start; }
+    .strip { display: flex; gap: 18px; overflow-x: auto; padding: 4px 10px 24px; scroll-snap-type: x mandatory; }
+    .strip > .trip-card, .strip > .mazzo { flex: 0 0 260px; scroll-snap-align: start; }
     .go { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
     .go a { display: flex; gap: 16px; align-items: center; text-decoration: none; color: #2d2150; background: #fff; border-radius: 24px; padding: 22px; box-shadow: 0 12px 28px rgba(110,80,180,.13); transition: transform .15s; }
     .go a:hover { transform: translateY(-3px); }
@@ -77,9 +77,9 @@
   </div>
 
   <script type="module">
-    import { loadAllTrips } from "./parser.js";
+    import { loadAllTrips, raggruppaLuoghi } from "./parser.js";
     import { SCENE } from "./scene.js";
-    import { scenaSvg, dividiNome, notti, ROTTA, etichetteCard } from "./ui.js";
+    import { dividiNome, ROTTA, cardLuogo } from "./ui.js";
     document.getElementById("rotta").innerHTML = ROTTA;
 
     const trips = await loadAllTrips();
@@ -91,26 +91,17 @@
       `<svg viewBox="0 0 ${tot} 176" preserveAspectRatio="xMidYMax slice">` +
       ordine.map((k, i) => SCENE[k].replace(/<!--d-->[\s\S]*?<!--\/d-->/, "").replace(/<circle[^>]*ffd9a0[^>]*\/>/, "").replace(/<svg[^>]*>/, `<svg x="${i * 250}" y="0" width="${w}" height="176" viewBox="0 0 560 300">`)).join("") + `</svg>`;
 
-    // ---- data di inizio di ogni viaggio ----
+    // ---- viaggi già fatti (la data di partenza la calcola parser.js) ----
     const oggi = new Date();
-    function inizio(t) {
-      const anno = (t.periodo.match(/\d{4}/) || [])[0];
-      const g = Object.values(t.giorni).find(x => x.data);
-      if (g && anno) return new Date(+anno, g.data.m - 1, g.data.g);
-      if (g) { let d = new Date(oggi.getFullYear(), g.data.m - 1, g.data.g); if (d < oggi) d.setFullYear(d.getFullYear() + 1); return d; }
-      return anno ? new Date(+anno, 0, 1) : oggi;
-    }
-    trips.forEach(t => t._inizio = inizio(t));
     const fatti = trips.filter(t => t._inizio <= oggi);
 
     // ---- numeri: contano solo i viaggi già fatti ----
     const giorni = fatti.reduce((s, t) => s + Object.keys(t.giorni).length, 0);
     const luoghi = fatti.reduce((s, t) => s + Object.values(t.giorni).reduce((a, g) => a + g.luoghi.length, 0), 0);
-    // destinazioni: zone diverse (viaggi vicini contano una volta, come i segnalini della mappa)
-    const zone = [];
-    fatti.forEach(t => { if (!zone.some(z => Math.abs(z.lat - t.lat) < 0.5 && Math.abs(z.lng - t.lng) < 0.5)) zone.push({ lat: t.lat, lng: t.lng }); });
+    // destinazioni: i luoghi (viaggi dello stesso luogo contano una volta)
+    const dest = raggruppaLuoghi(fatti).length;
     document.getElementById("stats").innerHTML =
-      `<div class="ic"><i class="fas fa-plane"></i></div>` + [[fatti.length, "viaggi", "VOLI"], [giorni, "giorni in giro", "GIORNI"], [luoghi, "luoghi scoperti", "LUOGHI"], [zone.length, "destinazioni", "META"]]
+      `<div class="ic"><i class="fas fa-plane"></i></div>` + [[fatti.length, "viaggi", "VOLI"], [giorni, "giorni in giro", "GIORNI"], [luoghi, "luoghi scoperti", "LUOGHI"], [dest, "destinazioni", "META"]]
         .map(([n, l, k]) => `<div class="stat"><small>${k}</small><strong>${n}</strong><span>${l}</span></div>`).join("");
 
     // ---- prossimo viaggio (solo se ce n'è uno futuro) ----
@@ -122,13 +113,9 @@
       el.innerHTML = `<div><small>PROSSIMO VIAGGIO</small><b>${dividiNome(t.nome).titolo}</b></div><div class="cd"><strong>${n}</strong><span>${n === 1 ? "giorno" : "giorni"} alla partenza</span></div>`;
     }
 
-    // ---- ultimi viaggi ----
-    const passati = [...fatti].sort((a, b) => b._inizio - a._inizio).slice(0, 8);
-    document.getElementById("strip").innerHTML = passati.map(t => {
-      const { titolo, anno } = dividiNome(t.nome);
-      return `<a class="trip-card" href="viaggio.html?trip=${t.id}" style="--acc:${t.colore}">${etichetteCard(t)}<div class="art">${scenaSvg(t)}</div>
-        <div class="info"><h3>${titolo}${anno ? " " + anno : ""}</h3><div class="per">${[t.periodo, notti(t)].filter(Boolean).join(" · ")}</div></div></a>`;
-    }).join("");
+    // ---- ultimi luoghi visitati (card senza anni; mazzetto se hanno più viaggi) ----
+    const recenti = raggruppaLuoghi(fatti).sort((a, b) => b.ultimo - a.ultimo).slice(0, 8);
+    document.getElementById("strip").innerHTML = recenti.map(p => cardLuogo(p)).join("");
   </script>
 </body>
 </html>

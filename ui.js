@@ -1,23 +1,22 @@
 // ui.js — banner, elenco giorni e dettaglio giorno (usato da functions.js e functionsScopri.js)
-import { loadTrip, tripFromUrl, infoData, gruppiGiorno, AREE, STAGIONI } from "./parser.js";
+import { loadTrip, tripFromUrl, infoData, gruppiGiorno, AREE, STAGIONI, dividiNome, raggruppaLuoghi, ordinale, leggiIndice } from "./parser.js";
 import { SCENE } from "./scene.js";
 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-// "Grecia 2024 – Santorini" -> { titolo: "Grecia", anno: "2024", extra: "Santorini" }
-export function dividiNome(nome) {
-  let extra = "";
-  const parti = nome.split(" – ");
-  if (parti.length > 1) { nome = parti[0]; extra = parti.slice(1).join(" – "); }
-  const m = nome.match(/^(.*?)\s+(\d{4}(?:\/\d{2})?)$/);
-  return m ? { titolo: m[1], anno: m[2], extra } : { titolo: nome, anno: "", extra };
-}
+export { dividiNome };
 
-// etichette sulle card dei viaggi: area (in alto a sinistra), stagione (pallino in alto a destra), "in programma"
-export function etichetteCard(t) {
+// etichette sulle card: area (in alto a sinistra), stagione (pallino in alto a destra), "in programma"
+// stagioni = elenco di stagioni per i luoghi con più viaggi (pillola al posto del pallino)
+export function etichetteCard(t, stagioni) {
   const a = AREE[t.area], s = STAGIONI[t.stagione];
-  return (a ? `<span class="tag">${a.emoji} ${a.nome}</span>` : "") +
-    (s ? `<span class="stag" title="${s.nome}" aria-label="${s.nome}">${s.emoji}</span>` : "") +
+  let stag = "";
+  if (stagioni) {
+    if (stagioni.length) stag = `<span class="stag multi" title="${esc(stagioni.map(k => STAGIONI[k].nome).join(", "))}">${stagioni.map(k => STAGIONI[k].emoji).join("")}</span>`;
+  } else if (s) {
+    stag = `<span class="stag" title="${s.nome}" aria-label="${s.nome}">${s.emoji}</span>`;
+  }
+  return (a ? `<span class="tag">${a.emoji} ${a.nome}</span>` : "") + stag +
     (t._futuro ? `<span class="tag prog">IN PROGRAMMA</span>` : "");
 }
 (function stileCard() {
@@ -26,9 +25,44 @@ export function etichetteCard(t) {
     .trip-card .tag { text-transform: none; font-size: 18px; padding: 4px 11px; }
     .trip-card .tag.prog { left: auto; right: 12px; top: 56px; background: var(--lilla, #7a5fc4); color: #fff; font-size: 16px; }
     .trip-card .stag { position: absolute; top: 10px; right: 12px; z-index: 3; width: 36px; height: 36px; display: grid; place-items: center;
-      border-radius: 50%; background: #fff; font-size: 19px; line-height: 1; box-shadow: 0 3px 10px rgba(110,80,180,.18); }`;
+      border-radius: 50%; background: #fff; font-size: 19px; line-height: 1; box-shadow: 0 3px 10px rgba(110,80,180,.18); }
+    .trip-card .stag.multi { width: auto; min-width: 36px; padding: 0 11px; border-radius: 99px; font-size: 16px; letter-spacing: 2px; }
+    /* luoghi con più viaggi: mazzetto di biglietti sovrapposti */
+    .mazzo { position: relative; isolation: isolate; margin-bottom: 14px; }
+    .mazzo::before, .mazzo::after { content: ""; position: absolute; inset: 0; border-radius: 22px; transition: transform .25s;
+      background: color-mix(in srgb, var(--acc, #7a5fc4) 20%, #fff); box-shadow: 0 6px 16px rgba(110,80,180,.14); }
+    .mazzo::before { z-index: 0; transform: translateY(8px) rotate(-2.6deg); }
+    .mazzo::after { z-index: -1; transform: translateY(15px) rotate(2.4deg); opacity: .8; }
+    .mazzo-2::after { display: none; }
+    .mazzo > .trip-card { position: relative; z-index: 1; }
+    .mazzo:hover::before { transform: translate(-4px, 10px) rotate(-4.5deg); }
+    .mazzo:hover::after { transform: translate(4px, 17px) rotate(4.2deg); }
+    @media (prefers-reduced-motion: reduce) { .mazzo::before, .mazzo::after { transition: none; } }`;
   document.head.appendChild(s);
 })();
+
+// indirizzo di un luogo: un solo viaggio -> direttamente l'itinerario; più viaggi -> pagina del luogo
+export function urlLuogo(p, scopri = false) {
+  return p.trips.length > 1
+    ? `luogo.html?l=${encodeURIComponent(p.id)}${scopri ? "&m=scopri" : ""}`
+    : `${scopri ? "scopriViaggio" : "viaggio"}.html?trip=${p.trips[0].id}`;
+}
+
+// card di un luogo (senza anni): singola, oppure "mazzetto" se ha più viaggi
+export function cardLuogo(p, { scopri = false } = {}) {
+  const t = p.principale, multi = p.trips.length > 1;
+  const stagioni = [...new Set(p.trips.map(x => x.stagione).filter(Boolean))];
+  const nLuoghi = x => Object.values(x.giorni).reduce((s, g) => s + g.luoghi.length, 0);
+  const s = STAGIONI[t.stagione];
+  const per = multi
+    ? `${p.trips.length} viaggi`
+    : scopri ? `${nLuoghi(t)} luoghi da scoprire` : [s && s.nome, notti(t), dividiNome(t.nome).extra].filter(Boolean).join(" · ");
+  const eti = etichetteCard({ ...t, _futuro: p.trips.some(x => x._futuro) }, multi ? stagioni : undefined);
+  const card = `<a class="trip-card" href="${urlLuogo(p, scopri)}" style="--acc:${esc(t.colore)}">${eti}
+    <div class="art">${scenaSvg(t)}</div>
+    <div class="info"><h3>${esc(p.nome)}</h3><div class="per">${esc(per)}</div></div></a>`;
+  return multi ? `<div class="mazzo mazzo-${Math.min(p.trips.length, 3)}" style="--acc:${esc(t.colore)}">${card}</div>` : card;
+}
 
 export function scenaSvg(trip) {
   return SCENE[trip.scena] || SCENE.default;
@@ -46,16 +80,17 @@ export const ROTTA = `<svg class="rotta" viewBox="0 0 600 260" aria-hidden="true
   <g transform="translate(585 30) rotate(-38)"><path d="M-14 0 L14 0 L22 -3 L22 3 L14 0 M-4 0 L-12 -14 L-7 -14 L5 0 M-4 0 L-12 14 L-7 14 L5 0 M-14 0 L-18 -6 L-15 -6 L-9 0 M-14 0 L-18 6 L-15 6 L-9 0" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></g>
 </svg>`;
 
-export function heroHtml(trip, etichetta) {
-  const { titolo, anno, extra } = dividiNome(trip.nome);
-  const sotto = [trip.periodo, notti(trip), extra].filter(Boolean).join(" · ");
+export function heroHtml(trip, etichetta, sottoTesto) {
+  const { titolo, extra } = dividiNome(trip.nome);
+  const stag = STAGIONI[trip.stagione];
+  const sotto = sottoTesto ?? [trip.periodo, notti(trip), extra].filter(Boolean).join(" · ");
   const pillole = trip.citta.map(c =>
     `<span class="pill"><i style="background:${esc(c.colore)}"></i>${esc(c.nome)}${c.info ? ` <s>${esc(c.info)}</s>` : ""}</span>`).join("");
   return `
     <div class="trip-hero" style="--acc:${esc(trip.colore)}">
       <div class="hero-text">
         <small>${esc(etichetta)}</small>
-        <h1>${esc(titolo)}${anno ? `<em>${esc(anno)}</em>` : ""}</h1>
+        <h1>${esc(titolo)}${stag ? `<em>${stag.emoji} ${esc(stag.nome)}</em>` : ""}</h1>
         <p>${esc(sotto)}</p>
         ${pillole ? `<div class="pills">${pillole}</div>` : ""}
       </div>
@@ -121,8 +156,12 @@ export async function montaViaggio(modo) {
     vista.innerHTML = `<p class="vuoto">${esc(e.message)}</p>`;
     return;
   }
-  document.title = (agenda ? "" : "Scopri – ") + trip.nome;
-  hero.innerHTML = crumb + heroHtml(trip, agenda ? "il mio itinerario" : "da non perdere");
+  document.title = (agenda ? "" : "Scopri – ") + dividiNome(trip.nome).titolo;
+  // se il luogo ha più viaggi, "indietro" torna alla pagina del luogo
+  const crumbViaggio = trip.fratelli > 1
+    ? `<a class="crumb" href="luogo.html?l=${encodeURIComponent(trip.luogo)}${agenda ? "" : "&m=scopri"}"><i class="fas fa-arrow-left"></i> Tutti i viaggi qui</a>`
+    : crumb;
+  hero.innerHTML = crumbViaggio + heroHtml(trip, agenda ? "il mio itinerario" : "da non perdere");
 
   // giorni mostrati (in "scopri" solo quelli con luoghi)
   const chiavi = Object.keys(trip.giorni).filter(k => agenda || trip.giorni[k].luoghi.length);
@@ -224,6 +263,48 @@ export async function montaViaggio(modo) {
   apriDaIndirizzo();
 }
 
+// ---------- pagina di un luogo con più viaggi (luogo.html?l=londra) ----------
+export async function montaLuogo() {
+  stileCrumb();
+  const hero = document.getElementById("hero");
+  const vista = document.getElementById("vista");
+  const q = new URLSearchParams(location.search);
+  const slug = (q.get("l") || "").toLowerCase();
+  const scopri = q.get("m") === "scopri";
+  const crumb = `<a class="crumb" href="${scopri ? "scopri.html" : "itinerari.html"}"><i class="fas fa-arrow-left"></i> ${scopri ? "Tutti i luoghi" : "Tutti gli itinerari"}</a>`;
+  let trips;
+  try {
+    const indice = await leggiIndice();
+    const ids = indice.filter(v => v.luogo === slug).map(v => v.id);
+    if (!ids.length) throw new Error(`Luogo "${slug}" non trovato`);
+    const r = await Promise.allSettled(ids.map(loadTrip));
+    trips = r.filter(x => x.status === "fulfilled").map(x => x.value);
+    if (scopri) trips = trips.filter(t => Object.values(t.giorni).some(g => g.luoghi.length));
+    if (!trips.length) throw new Error("Nessun viaggio disponibile per questo luogo");
+  } catch (e) {
+    hero.innerHTML = crumb;
+    vista.innerHTML = `<p class="vuoto">${esc(e.message)}</p>`;
+    return;
+  }
+  const [p] = raggruppaLuoghi(trips);
+  document.title = p.nome;
+  const stagioni = [...new Set(p.trips.map(t => t.stagione).filter(Boolean))].map(k => STAGIONI[k].emoji).join(" ");
+  const sotto = `${p.trips.length} ${p.trips.length === 1 ? "viaggio" : "viaggi"}${stagioni ? " · " + stagioni : ""}`;
+  hero.innerHTML = crumb + heroHtml({ ...p.principale, nome: p.nome, periodo: "", giorni: {}, citta: [], stagione: "" }, scopri ? "da non perdere" : "i miei viaggi qui", sotto);
+
+  vista.innerHTML = `<ol class="tl">` + p.trips.map((t, i) => {
+    const s = STAGIONI[t.stagione];
+    const extra = dividiNome(t.nome).extra;
+    const periodo = (t.periodo || "").replace(/\s*\b\d{4}\b/g, "").replace(/\s+/g, " ").trim();   // date senza anno
+    const titolo = periodo || [s && s.nome, extra].filter(Boolean).join(" · ") || p.nome;
+    const sottoTit = [s && s.nome, notti(t), extra].filter(Boolean).join(" · ");
+    return `<li class="tl-item" style="--c:${esc(t.colore)}"><a href="${scopri ? "scopriViaggio" : "viaggio"}.html?trip=${encodeURIComponent(t.id)}">
+      <span class="tl-date"><i class="fas fa-plane"></i><span><b>${s ? s.emoji : "✈️"}</b><small>${i + 1}°</small></span></span>
+      <div class="tl-body"><div class="sett">${esc(ordinale(i))}</div><h3>${esc(titolo)}</h3><p>${esc(sottoTit)}</p></div><span class="tl-bars"></span>
+    </a></li>`;
+  }).join("") + `</ol>`;
+}
+
 // ==========================================================
 // MENU IN ALTO (tutti i dispositivi): voci + rotta tratteggiata con aeroplanino
 // Si attiva da solo su ogni pagina che importa ui.js.
@@ -245,7 +326,10 @@ function montaMenu() {
        ["itinerari.html", "map-location-dot", "Itinerari", "itinerari.html"],
        ["scopri.html", "compass", "Scopri di più", "scopri.html"]];
 
-  const attiva = Math.max(0, voci.findIndex(v => v[3] === pagina));
+  const paginaAttiva = pagina === "luogo.html"
+    ? (new URLSearchParams(location.search).get("m") === "scopri" ? "scopri.html" : "itinerari.html")
+    : pagina;
+  const attiva = Math.max(0, voci.findIndex(v => v[3] === paginaAttiva));
   const pos = i => ((i + .5) / voci.length) * 100;
 
   const s = document.createElement("style");
