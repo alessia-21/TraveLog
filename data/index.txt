@@ -1,11 +1,13 @@
 // data/index.txt — un viaggio per riga:   id | area        (area: europa | asia)
 //   Il tipo si calcola da solo: fino a 4 giorni = fuga, da 5 = avventura.
 //   Per forzarlo aggiungilo:   lisbona | fuga | europa      oppure      grecia | avventura | europa
-//   La stagione si calcola dalle date; per forzarla aggiungila:   giappone | asia | primavera
+//   La stagione si calcola dalle date; per forzarla aggiungila:   giappone | asia | primavera | luogo:giappone
+//   Più viaggi nello stesso posto: stesso luogo, per esempio   londra2023 | europa | luogo:londra
+//   (il luogo prende nome e disegno dal viaggio che ha lo stesso id, altrimenti dal più recente)
 //   (l'ordine delle righe è quello usato dal sito)
 
-giappone | asia | primavera
-tokyo | asia
+giappone | asia | primavera | luogo:giappone
+tokyo | asia | luogo:giappone
 atene | europa
 madrid | europa
 belgio-olanda | europa
@@ -15,9 +17,9 @@ praga | europa
 grecia | europa
 manchester | europa
 dublino | europa
-londra | europa
-londra2023 | europa
-londra-dicembre | europa
+londra | europa | luogo:londra
+londra2023 | europa | luogo:londra
+londra-dicembre | europa | luogo:londra
 berlino | europa
 parigi | europa
 monaco | europa
