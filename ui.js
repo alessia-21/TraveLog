@@ -56,7 +56,7 @@ export function cardLuogo(p, { scopri = false } = {}) {
   const s = STAGIONI[t.stagione];
   const per = multi
     ? `${p.trips.length} viaggi`
-    : scopri ? `${nLuoghi(t)} luoghi da scoprire` : [s && s.nome, notti(t), dividiNome(t.nome).extra].filter(Boolean).join(" · ");
+    : scopri ? `${nLuoghi(t)} luoghi da scoprire` : [notti(t), dividiNome(t.nome).extra].filter(Boolean).join(" · ");   // la stagione è il pallino con l'emoji
   const eti = etichetteCard({ ...t, _futuro: p.trips.some(x => x._futuro) }, multi ? stagioni : undefined);
   const card = `<a class="trip-card" href="${urlLuogo(p, scopri)}" style="--acc:${esc(t.colore)}">${eti}
     <div class="art">${scenaSvg(t)}</div>

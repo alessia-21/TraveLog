@@ -14,6 +14,7 @@
   <style>
     /* secondo filtro (area): chip più piccoli */
     .chip-s { font-size: 12.5px; padding: 8px 14px; }
+    .chip-emoji { font-size: 17px; line-height: 1; padding: 7px 14px; }
     /* menu in alto: spazio riservato subito, così la pagina non salta quando si carica ui.js */
     body.v2 .v2-main { padding-top: calc(104px + env(safe-area-inset-top)); }
   </style>
@@ -49,11 +50,11 @@
       </div>
       <!-- filtro per stagione (si calcola dalla data di partenza) -->
       <div class="filtri" id="f-stagione">
-        <button class="chip chip-s on" data-s="tutte" type="button">Tutte le stagioni</button>
-        <button class="chip chip-s" data-s="primavera" type="button">🌷 Primavera</button>
-        <button class="chip chip-s" data-s="estate" type="button">☀️ Estate</button>
-        <button class="chip chip-s" data-s="autunno" type="button">🍂 Autunno</button>
-        <button class="chip chip-s" data-s="inverno" type="button">❄️ Inverno</button>
+        <button class="chip chip-s on" data-s="tutte" type="button">Tutte</button>
+        <button class="chip chip-s chip-emoji" data-s="primavera" type="button" title="Primavera" aria-label="Primavera">🌷</button>
+        <button class="chip chip-s chip-emoji" data-s="estate" type="button" title="Estate" aria-label="Estate">☀️</button>
+        <button class="chip chip-s chip-emoji" data-s="autunno" type="button" title="Autunno" aria-label="Autunno">🍂</button>
+        <button class="chip chip-s chip-emoji" data-s="inverno" type="button" title="Inverno" aria-label="Inverno">❄️</button>
       </div>
       <div id="elenco"></div>
     </div>
