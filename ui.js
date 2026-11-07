@@ -41,6 +41,59 @@ export function etichetteCard(t, stagioni) {
   document.head.appendChild(s);
 })();
 
+// ---------- ricerca ----------
+// Un viaggio corrisponde se tutte le parti scritte corrispondono. Si può cercare per:
+//   nome del luogo, mese o periodo ("agosto"), anno ("2024"), notti ("3 notti", "3n"), giorni ("4 giorni", "4g")
+//   un numero da solo ("3") vale per notti o giorni
+export function corrispondeRicerca(t, nomeLuogo, q) {
+  q = (q || "").trim().toLowerCase();
+  if (!q) return true;
+  const giorni = Object.keys(t.giorni).length, nottiN = Math.max(0, giorni - 1);
+  const testo = `${nomeLuogo} ${t.nome} ${t.periodo || ""}`.toLowerCase();
+  const numeri = [];
+  const resto = q.replace(/(\d+)\s*(notti|notte|giorni|giorno|gg|n|g)?(?![a-zà-ù])/g, (m, n, u) => { numeri.push({ n: +n, u: u || "" }); return " "; });
+  const okNumeri = numeri.every(({ n, u }) =>
+    n >= 1000 ? testo.includes(String(n))                       // un anno
+    : !u ? (n === nottiN || n === giorni)                       // "3": notti o giorni
+    : /^(notti|notte|n)$/.test(u) ? n === nottiN : n === giorni);
+  const neutre = ["notti", "notte", "giorni", "giorno", "gg", "n", "g"];
+  const okParole = resto.split(/\s+/).filter(w => w && !neutre.includes(w)).every(w => testo.includes(w));
+  return okNumeri && okParole;
+}
+
+// campo di ricerca con la X per cancellare tutto (compare solo quando c'è del testo)
+export function attivaCerca(input) {
+  if (!document.getElementById("stile-cerca")) {
+    const s = document.createElement("style");
+    s.id = "stile-cerca";
+    s.textContent = `
+      .filtri .cerca-wrap { position: relative; flex: 1 1 220px; min-width: 0; }
+      .filtri .cerca-wrap input { width: 100%; box-sizing: border-box; padding-right: 46px; }
+      .cerca-wrap input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+      .cerca-x { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: 0; border-radius: 50%;
+        display: grid; place-items: center; background: var(--lilla-chiaro, #e7defa); color: var(--lilla, #7a5fc4); font-size: 13px; cursor: pointer; padding: 0; }
+      .cerca-x[hidden] { display: none; }`;
+    document.head.appendChild(s);
+  }
+  const wrap = document.createElement("div");
+  wrap.className = "cerca-wrap";
+  input.parentNode.insertBefore(wrap, input);
+  wrap.appendChild(input);
+  const x = document.createElement("button");
+  x.type = "button"; x.className = "cerca-x"; x.setAttribute("aria-label", "Cancella la ricerca"); x.title = "Cancella";
+  x.innerHTML = '<i class="fas fa-xmark"></i>';
+  wrap.appendChild(x);
+  const aggiorna = () => { x.hidden = !input.value; };
+  input.addEventListener("input", aggiorna);
+  x.addEventListener("click", () => {
+    input.value = "";
+    aggiorna();
+    input.dispatchEvent(new Event("input", { bubbles: true }));   // aggiorna l'elenco
+    input.focus();
+  });
+  aggiorna();
+}
+
 // indirizzo di un luogo: un solo viaggio -> direttamente l'itinerario; più viaggi -> pagina del luogo
 export function urlLuogo(p, scopri = false) {
   return p.trips.length > 1

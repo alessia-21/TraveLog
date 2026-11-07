@@ -16,14 +16,14 @@
 <body class="v2">
   <div class="v2-main">
     <div class="mp-head"><h1>Scopri di più</h1></div>
-    <div class="filtri"><input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off"></div>
+    <div class="filtri"><input id="cerca" type="search" placeholder="Cerca un luogo, un mese, 3 notti…" autocomplete="off"></div>
     <!-- Compaiono i viaggi che hanno almeno un luogo "+" in data/<id>.txt -->
     <div class="cards" id="lista-itinerari"></div>
   </div>
 
   <script type="module">
     import { loadAllTrips, raggruppaLuoghi } from "./parser.js";
-    import { cardLuogo } from "./ui.js";
+    import { cardLuogo, corrispondeRicerca, attivaCerca } from "./ui.js";
 
     const lista = document.getElementById("lista-itinerari");
     // solo i viaggi con luoghi da scoprire, raggruppati per luogo (più recenti prima)
@@ -36,13 +36,14 @@
     try { st = JSON.parse(sessionStorage.getItem(CH) || "{}"); } catch (e) {}
     const cercaEl = document.getElementById("cerca");
     cercaEl.value = st.q || "";
+    attivaCerca(cercaEl);
     function salva(torna) {
       try { sessionStorage.setItem(CH, JSON.stringify({ q: cercaEl.value, scroll: window.scrollY, torna: !!torna, quando: Date.now() })); } catch (e) {}
     }
 
     function disegna() {
       const q = cercaEl.value.trim().toLowerCase();
-      lista.innerHTML = luoghi.filter(p => !q || (p.nome + " " + p.trips.map(t => t.nome).join(" ")).toLowerCase().includes(q))
+      lista.innerHTML = luoghi.filter(p => p.trips.some(t => corrispondeRicerca(t, p.nome, q)))
         .map(p => cardLuogo(p, { scopri: true })).join("") || '<p class="vuoto">Nessun itinerario disponibile.</p>';
     }
     disegna();

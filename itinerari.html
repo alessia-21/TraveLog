@@ -34,7 +34,7 @@
 
     <div id="vista-elenco" hidden>
       <div class="filtri">
-        <input id="cerca" type="search" placeholder="Cerca un viaggio…" autocomplete="off">
+        <input id="cerca" type="search" placeholder="Cerca un luogo, un mese, 3 notti…" autocomplete="off">
       </div>
       <!-- filtro per tipo di viaggio -->
       <div class="filtri" id="f-tipo">
@@ -64,7 +64,7 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script type="module">
     import { loadAllTrips, raggruppaLuoghi, TIPI, AREE, STAGIONI } from "./parser.js";
-    import { cardLuogo, urlLuogo } from "./ui.js";
+    import { cardLuogo, urlLuogo, corrispondeRicerca, attivaCerca } from "./ui.js";
 
     const trips = await loadAllTrips();
 
@@ -83,6 +83,7 @@
     let filtroTipo = TIPI[st.tipo] ? st.tipo : "tutti", filtroArea = AREE[st.area] ? st.area : "tutti";
     let filtroStagione = STAGIONI[st.stagione] ? st.stagione : "tutte";
     cercaEl.value = st.q || "";
+    attivaCerca(cercaEl);
     document.querySelectorAll("#f-tipo .chip").forEach(x => x.classList.toggle("on", x.dataset.t === filtroTipo));
     document.querySelectorAll("#f-area .chip").forEach(x => x.classList.toggle("on", x.dataset.a === filtroArea));
     document.querySelectorAll("#f-stagione .chip").forEach(x => x.classList.toggle("on", x.dataset.s === filtroStagione));
@@ -96,7 +97,7 @@
         (filtroTipo === "tutti" || t.tipo === filtroTipo) &&
         (filtroArea === "tutti" || t.area === filtroArea) &&
         (filtroStagione === "tutte" || t.stagione === filtroStagione) &&
-        (!q || (p.nome + " " + t.nome).toLowerCase().includes(q));
+        corrispondeRicerca(t, p.nome, q);
       const okLuogo = p => p.trips.some(t => ok(t, p));
       let html = "";
       Object.entries(TIPI).forEach(([chiave, { emoji, nome }]) => {
